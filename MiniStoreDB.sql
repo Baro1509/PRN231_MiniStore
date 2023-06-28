@@ -89,6 +89,19 @@ CREATE TABLE ShiftSalary(
     FOREIGN KEY (ApprovedBy) REFERENCES Staff(StaffID)
 )
 -------------------------------------------------------------------------------
+CREATE TABLE MonthSalary(
+	MonthSalaryID int identity not null,
+	[AssignedTo] varchar(10) NOT NULL,
+	[ApprovedBy] varchar(10) NOT NULL,
+	MonthSalary money NOT NULL,
+	StartTime datetime NOT NULL,
+	EndTime datetime NULL,
+	[Status] tinyint default 1,
+	PRIMARY KEY (MonthSalaryID),
+    FOREIGN KEY (AssignedTo) REFERENCES Staff(StaffID),
+    FOREIGN KEY (ApprovedBy) REFERENCES Staff(StaffID)
+)
+-------------------------------------------------------------------------------
 CREATE TABLE MonthlyBonus(
 	MonthlyBonusID int identity not null,
 	[AssignedTo] varchar(10) NOT NULL,
