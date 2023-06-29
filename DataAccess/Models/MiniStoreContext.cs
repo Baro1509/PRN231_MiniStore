@@ -22,6 +22,7 @@ namespace DataAccess.Models
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<LeaveRequest> LeaveRequests { get; set; } = null!;
+        public virtual DbSet<MonthSalary> MonthSalaries { get; set; } = null!;
         public virtual DbSet<MonthlyBonu> MonthlyBonus { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ShiftSalary> ShiftSalaries { get; set; } = null!;
@@ -188,6 +189,43 @@ namespace DataAccess.Models
                     .HasForeignKey(d => d.RequestedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__LeaveRequ__Reque__5CD6CB2B");
+            });
+
+            modelBuilder.Entity<MonthSalary>(entity =>
+            {
+                entity.ToTable("MonthSalary");
+
+                entity.Property(e => e.MonthSalaryId).HasColumnName("MonthSalaryID");
+
+                entity.Property(e => e.ApprovedBy)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AssignedTo)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EndTime).HasColumnType("datetime");
+
+                entity.Property(e => e.MonthSalary1)
+                    .HasColumnType("money")
+                    .HasColumnName("MonthSalary");
+
+                entity.Property(e => e.StartTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
+                entity.HasOne(d => d.ApprovedByNavigation)
+                    .WithMany(p => p.MonthSalaryApprovedByNavigations)
+                    .HasForeignKey(d => d.ApprovedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__MonthSala__Appro__04E4BC85");
+
+                entity.HasOne(d => d.AssignedToNavigation)
+                    .WithMany(p => p.MonthSalaryAssignedToNavigations)
+                    .HasForeignKey(d => d.AssignedTo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__MonthSala__Assig__03F0984C");
             });
 
             modelBuilder.Entity<MonthlyBonu>(entity =>

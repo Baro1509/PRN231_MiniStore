@@ -12,6 +12,8 @@ namespace DataAccess.Models
             Invoices = new HashSet<Invoice>();
             LeaveRequestApprovedByNavigations = new HashSet<LeaveRequest>();
             LeaveRequestRequestedByNavigations = new HashSet<LeaveRequest>();
+            MonthSalaryApprovedByNavigations = new HashSet<MonthSalary>();
+            MonthSalaryAssignedToNavigations = new HashSet<MonthSalary>();
             MonthlyBonuApprovedByNavigations = new HashSet<MonthlyBonu>();
             MonthlyBonuAssignedToNavigations = new HashSet<MonthlyBonu>();
             ShiftSalaryApprovedByNavigations = new HashSet<ShiftSalary>();
@@ -30,6 +32,8 @@ namespace DataAccess.Models
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<LeaveRequest> LeaveRequestApprovedByNavigations { get; set; }
         public virtual ICollection<LeaveRequest> LeaveRequestRequestedByNavigations { get; set; }
+        public virtual ICollection<MonthSalary> MonthSalaryApprovedByNavigations { get; set; }
+        public virtual ICollection<MonthSalary> MonthSalaryAssignedToNavigations { get; set; }
         public virtual ICollection<MonthlyBonu> MonthlyBonuApprovedByNavigations { get; set; }
         public virtual ICollection<MonthlyBonu> MonthlyBonuAssignedToNavigations { get; set; }
         public virtual ICollection<ShiftSalary> ShiftSalaryApprovedByNavigations { get; set; }
