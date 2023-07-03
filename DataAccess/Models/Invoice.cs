@@ -16,7 +16,7 @@ namespace DataAccess.Models
         public decimal Total { get; set; }
         public byte? Status { get; set; }
 
-        public virtual staff Staff { get; set; } = null!;
+        public virtual Staff Staff { get; set; } = null!;
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
     }
 }

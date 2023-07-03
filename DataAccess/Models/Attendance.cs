@@ -10,6 +10,6 @@ namespace DataAccess.Models
         public DateTime CreatedTime { get; set; }
         public bool? IsCheckIn { get; set; }
 
-        public virtual staff Staff { get; set; } = null!;
+        public virtual Staff Staff { get; set; } = null!;
     }
 }
