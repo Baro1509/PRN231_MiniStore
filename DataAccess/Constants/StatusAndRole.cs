@@ -18,19 +18,18 @@
             return SafeGuard.Equals(role);
         }
     }
+    public class AttendanceStatus
+    {
+        public static bool CheckIn = true;
+        public static bool CheckOut = false;
+        public static bool IsValid = true;
+        public static bool IsInvalid = false;
+    }
 
     public enum Status
     {
         Available = 1,
         Deleted = 0
-    }
-
-    public enum AttendanceStatus
-    {
-        CheckIn = 0,
-        CheckOut = 1,
-        InvalidCheckin = 2,
-        InvalidCheckout = 3
     }
     public enum ShiftSalaryStatus
     {
@@ -42,5 +41,12 @@
         NotPaid = 0,
         Paid = 1,
         Deleted = 2
+    }
+    public enum DutyStatus
+    {
+        Deleted = 0,
+        Upcoming = 1,
+        Present = 2,
+        Absent = 3
     }
 }

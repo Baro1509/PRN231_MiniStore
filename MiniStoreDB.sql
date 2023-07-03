@@ -137,14 +137,17 @@ CREATE TABLE Attendance(
 	FOREIGN KEY (StaffID) REFERENCES Staff(StaffID)
 )
 
-drop table Attendance
-drop table LeaveRequest
-drop table MonthlyBonus
-drop table ShiftSalary
-drop table Duty
-drop table WorkShift
-drop table InvoiceDetail
-drop table Invoice
-drop table Product
-drop table Category
-drop table Staff
+--drop table Attendance
+--drop table LeaveRequest
+--drop table MonthlyBonus
+--drop table ShiftSalary
+--drop table Duty
+--drop table WorkShift
+--drop table InvoiceDetail
+--drop table Invoice
+--drop table Product
+--drop table Category
+--drop table Staff
+
+INSERT INTO Staff (StaffID, StaffName, RoleID, Password, Status) values ('VyLT', N'Luân Tường Vy', 'SM', '1', 1)
+INSERT INTO Staff (StaffID, StaffName, RoleID, Password, Status) values ('VyLT1', N'Luân Tường Vy', 'MA', '1', 1)
