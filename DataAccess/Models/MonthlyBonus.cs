@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataAccess.Models
 {
-    public partial class MonthlyBonu
+    public partial class MonthlyBonus
     {
         public int MonthlyBonusId { get; set; }
         public string AssignedTo { get; set; } = null!;

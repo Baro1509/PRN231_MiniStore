@@ -21,7 +21,7 @@ namespace DataAccess.Models
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<LeaveRequest> LeaveRequests { get; set; } = null!;
         public virtual DbSet<MonthSalary> MonthSalaries { get; set; } = null!;
-        public virtual DbSet<MonthlyBonu> MonthlyBonus { get; set; } = null!;
+        public virtual DbSet<MonthlyBonus> MonthlyBonus { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ShiftSalary> ShiftSalaries { get; set; } = null!;
         public virtual DbSet<WorkShift> WorkShifts { get; set; } = null!;
@@ -229,7 +229,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK__MonthSala__Assig__03F0984C");
             });
 
-            modelBuilder.Entity<MonthlyBonu>(entity =>
+            modelBuilder.Entity<MonthlyBonus>(entity =>
             {
                 entity.HasKey(e => e.MonthlyBonusId)
                     .HasName("PK__MonthlyB__2C75704CDA26033F");
