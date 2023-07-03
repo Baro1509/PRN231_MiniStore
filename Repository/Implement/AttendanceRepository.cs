@@ -77,5 +77,10 @@ namespace Repository.Implement
             _attendanceDAO.Create(a);
             return true;
         }
+
+        public List<Attendance> GetAttendancesByStaff(string staffId)
+        {
+            return _attendanceDAO.GetAll().Where(a => a.StaffId.Equals(staffId)).ToList();
+        }
     }
 }

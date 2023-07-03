@@ -28,12 +28,14 @@ builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IWorkShiftRepository, WorkShiftRepository>();
 builder.Services.AddScoped<IDutyRepository, DutyRepository>();
 builder.Services.AddScoped<CategoryDAO>();
 builder.Services.AddScoped<ProductDAO>();
 builder.Services.AddScoped<InvoiceDAO>();
 builder.Services.AddScoped<AttendanceDAO>();
 builder.Services.AddScoped<DutyDAO>();
+builder.Services.AddScoped<WorkShiftDAO>();
 builder.Services.AddScoped<StaffDAO>();
 
 
