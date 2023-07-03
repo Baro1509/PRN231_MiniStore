@@ -131,7 +131,8 @@ CREATE TABLE Attendance(
 	AttendanceID int identity not null,
 	StaffID varchar(10) not null,
 	CreatedTime datetime not null,
-	IsCheckIn bit default 0,
+	IsCheckIn bit default 0 not null,
+	[Status] bit default 1 not null,
 	PRIMARY KEY (AttendanceID),
 	FOREIGN KEY (StaffID) REFERENCES Staff(StaffID)
 )
