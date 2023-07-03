@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
 using Repository;
 using Repository.Implement;
-using System.Diagnostics;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,17 +23,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MiniStoreContext>(
-  options => options.UseSqlServer("name=ConnectionStrings:MinistoreBao"));
+  options => options.UseSqlServer("name=ConnectionStrings:MinistoreVy"));
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<CategoryDAO>();
 builder.Services.AddScoped<ProductDAO>();
 builder.Services.AddScoped<InvoiceDAO>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters() {
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
@@ -46,7 +47,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
 }
