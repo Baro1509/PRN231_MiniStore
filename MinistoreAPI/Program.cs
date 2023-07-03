@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 ODataConventionModelBuilder odataBuilder = new ODataConventionModelBuilder();
 odataBuilder.EntitySet<Product>("Products");
 odataBuilder.EntitySet<Invoice>("Invoices");
+odataBuilder.EntitySet<Attendance>("Attendances");
+odataBuilder.EntitySet<WorkShift>("WorkShifts");
 builder.Services.AddControllers().AddOData(options => options.Select().Filter()
 .Count().OrderBy().Expand().SetMaxTop(null).AddRouteComponents("odata", odataBuilder.GetEdmModel()));
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Repository;
 
@@ -44,6 +45,11 @@ namespace MinistoreAPI.Controllers
                 return Ok();
             }
             return NotFound();
+        }
+        [EnableQuery]
+        public IActionResult Get(string staffId)
+        {
+            return Ok(_attendanceRepo.GetAttendancesByStaff(staffId));
         }
     }
 }

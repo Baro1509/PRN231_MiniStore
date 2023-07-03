@@ -11,7 +11,9 @@ namespace DataAccess
         }
         public IQueryable<WorkShift> GetAllByStartDate(DateOnly date)
         {
-            return GetAll().Include(ws => ws.Duties).Where(ws => DateOnly.FromDateTime(ws.StartTime).CompareTo(date) == 0);
+            DateTime from = date.ToDateTime(new TimeOnly(0, 0));
+            DateTime to = from.AddDays(1);
+            return GetAll().Include(ws => ws.Duties).Where(ws => ws.StartTime >= from && ws.StartTime <= to);
         }
     }
 }

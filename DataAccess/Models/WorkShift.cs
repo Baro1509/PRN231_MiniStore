@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
 {
@@ -9,7 +8,7 @@ namespace DataAccess.Models
         {
             Duties = new HashSet<Duty>();
         }
-
+        [Key]
         public int ShiftId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
