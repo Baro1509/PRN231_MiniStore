@@ -6,7 +6,7 @@ namespace Repository
 	{
 		public bool Create(string staffId, string managerId, int month, int year);
 		public MonthSalary? Get(string staffId, int month, int year);
-		public List<MonthSalary> Get(int staffId);
+		public List<MonthSalary> Get(string staffId);
 
 	}
 }

@@ -81,7 +81,7 @@ namespace Repository.Implement
 			return _monthSalaryDAO.GetAll().FirstOrDefault(m => m.AssignedTo.Equals(staffId) && m.StartTime == from && m.EndTime == to);
 		}
 
-		public List<MonthSalary> Get(int staffId)
+		public List<MonthSalary> Get(string staffId)
 		{
 			return _monthSalaryDAO.GetAll().Where(m => m.AssignedTo.Equals(staffId)).ToList();
 		}

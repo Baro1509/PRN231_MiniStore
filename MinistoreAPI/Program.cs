@@ -18,6 +18,7 @@ odataBuilder.EntitySet<Attendance>("Attendances");
 odataBuilder.EntitySet<WorkShift>("WorkShifts");
 odataBuilder.EntitySet<Duty>("Duties");
 odataBuilder.EntitySet<MonthSalary>("MonthSalaries");
+odataBuilder.EntitySet<ShiftSalary>("ShiftSalaries");
 builder.Services.AddControllers().AddOData(options => options.Select().Filter()
 .Count().OrderBy().Expand().SetMaxTop(null).AddRouteComponents("odata", odataBuilder.GetEdmModel()));
 
@@ -35,6 +36,7 @@ builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<IWorkShiftRepository, WorkShiftRepository>();
 builder.Services.AddScoped<IDutyRepository, DutyRepository>();
 builder.Services.AddScoped<IMonthSalaryRepository, MonthSalaryRepository>();
+builder.Services.AddScoped<IShiftSalaryRepository, ShiftSalaryRepository>();
 builder.Services.AddScoped<CategoryDAO>();
 builder.Services.AddScoped<ProductDAO>();
 builder.Services.AddScoped<InvoiceDAO>();

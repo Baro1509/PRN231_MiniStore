@@ -26,7 +26,7 @@ namespace Repository.Implement
             a.IsCheckIn = AttendanceStatus.CheckIn;
             a.Status = AttendanceStatus.IsValid;
 
-            // Get latest attendance
+            // GetCurrentShiftSalary latest attendance
             var latestAttendance = _attendanceDAO.GetLatestAttendance(staffId);
             if (latestAttendance != null && latestAttendance.IsCheckIn)
             {
@@ -53,7 +53,7 @@ namespace Repository.Implement
             a.IsCheckIn = AttendanceStatus.CheckOut;
             a.Status = AttendanceStatus.IsValid;
 
-            // Get latest attendance
+            // GetCurrentShiftSalary latest attendance
             var latestAttendance = _attendanceDAO.GetLatestAttendance(staffId);
             if (latestAttendance != null)
             {
