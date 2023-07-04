@@ -23,7 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MiniStoreContext>(
-  options => options.UseSqlServer("name=ConnectionStrings:MinistoreVy"));
+  options => options.UseSqlServer("name=ConnectionStrings:MinistoreTruong"));
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
