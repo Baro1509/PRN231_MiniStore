@@ -75,8 +75,9 @@ namespace Repository.Implement
                 var staff = _staffDAO.GetStaff(duty.AssignedTo);
                 if (staff != null)
                 {
-                    duty.ShiftId = found.ShiftId;
-                    _dutyDAO.Update(duty);
+                    found.AssignedTo = duty.AssignedTo;
+                    found.Status = duty.Status;
+                    _dutyDAO.Update(found);
                 }
                 return true;
             }

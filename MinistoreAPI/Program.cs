@@ -16,6 +16,7 @@ odataBuilder.EntitySet<Product>("Products");
 odataBuilder.EntitySet<Invoice>("Invoices");
 odataBuilder.EntitySet<Attendance>("Attendances");
 odataBuilder.EntitySet<WorkShift>("WorkShifts");
+odataBuilder.EntitySet<Duty>("Duties");
 builder.Services.AddControllers().AddOData(options => options.Select().Filter()
 .Count().OrderBy().Expand().SetMaxTop(null).AddRouteComponents("odata", odataBuilder.GetEdmModel()));
 

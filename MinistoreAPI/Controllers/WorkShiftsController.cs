@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using MinistoreAPI.Request;
 using Repository;
 
 namespace MinistoreAPI.Controllers
@@ -18,21 +19,29 @@ namespace MinistoreAPI.Controllers
         {
             return Ok(_workShiftRepo.GetAllByStartDate(new DateOnly(year, month, date)));
         }
-        public IActionResult Post([FromODataUri] int year, [FromODataUri] int month, [FromODataUri] int date, [FromODataUri] string managerId)
+        public IActionResult Post([FromBody] WorkShiftRequest request)
         {
-            _workShiftRepo.CreateDefaultWorkShiftsForDate(new DateOnly(year, month, date), managerId);
+            if (request.ShiftOrder == 0)
+            {
+                _workShiftRepo.CreateDefaultWorkShiftsForDate(DateOnly.FromDateTime(request.Date), request.ManagerId);
+            }
+            else
+            {
+                _workShiftRepo.CreateDefaultWorkShift(DateOnly.FromDateTime(request.Date), request.ManagerId, request.ShiftOrder);
+            }
             return Ok();
         }
-        public IActionResult Post([FromODataUri] int year, [FromODataUri] int month, [FromODataUri] int date, [FromODataUri] string managerId, [FromODataUri] int shiftOrderId)
+        [HttpPut("odata/WorkShifts/{id:int}")]
+        public IActionResult Put([FromRoute] int id, [FromBody] WorkShift workShift)
         {
-            _workShiftRepo.CreateDefaultWorkShift(new DateOnly(year, month, date), managerId, shiftOrderId);
-            return Ok();
-        }
-        public IActionResult Put([FromBody] WorkShift workShift)
-        {
+            if (id != workShift.ShiftId)
+            {
+                return BadRequest();
+            }
             return _workShiftRepo.Update(workShift) ? Ok() : NotFound();
         }
-        public IActionResult Delete([FromODataUri] int workShift)
+        [HttpDelete("odata/WorkShifts/{workShift:int}")]
+        public IActionResult Delete([FromRoute] int workShift)
         {
             return _workShiftRepo.DeleteWorkShift(workShift) ? Ok() : NotFound();
         }
