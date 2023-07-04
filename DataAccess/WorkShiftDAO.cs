@@ -13,7 +13,7 @@ namespace DataAccess
         {
             DateTime from = date.ToDateTime(new TimeOnly(0, 0));
             DateTime to = from.AddDays(1);
-            return GetAll().Include(ws => ws.Duties).Where(ws => ws.StartTime >= from && ws.StartTime <= to);
+            return GetAll().Include(ws => ws.Duties).Where(ws => ws.StartTime >= from && ws.StartTime <= to && ws.Status == (byte?)Status.Available);
         }
     }
 }

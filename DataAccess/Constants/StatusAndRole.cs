@@ -44,9 +44,8 @@
     }
     public enum DutyStatus
     {
-        Deleted = 0,
-        Upcoming = 1,
-        Present = 2,
-        Absent = 3
+        Upcoming = 0,
+        Present = 1,
+        Absent = 2
     }
 }

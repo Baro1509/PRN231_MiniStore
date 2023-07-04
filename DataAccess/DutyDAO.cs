@@ -13,13 +13,17 @@ namespace DataAccess
         {
             return GetAllDuties().Where(d => d.Shift.StartTime >= startTime && d.Shift.EndTime <= endTime);
         }
-        public IQueryable<Duty> GetDutiesByStaff(string staffId)
+        public IQueryable<Duty> GetDutiesByStaffInRange(string staffId, DateTime startTime, DateTime endTime)
         {
-            return GetAllDuties().Where(d => d.AssignedTo.Equals(staffId));
+            return GetAllDuties().Where(d => d.AssignedTo.Equals(staffId) && d.Shift.StartTime >= startTime && d.Shift.EndTime <= endTime);
         }
         public IQueryable<Duty> GetDutiesByShift(int shiftId)
         {
             return GetAllDuties().Where(d => d.ShiftId == shiftId);
+        }
+        public Duty? GetById(int id)
+        {
+            return GetAllDuties().FirstOrDefault(d => d.DutyId == id);
         }
     }
 }

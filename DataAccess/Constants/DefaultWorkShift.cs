@@ -70,5 +70,18 @@ namespace DataAccess.Constants
             ws.Status = (byte?)Status.Available;
             return ws;
         }
+
+        public static List<WorkShift> DefaultShifts(DateOnly date, string managerId)
+        {
+            return new List<WorkShift>
+            {
+                DefaultShift1(date, managerId),
+                DefaultShift2(date, managerId),
+                DefaultShift3(date, managerId),
+                DefaultShift4(date, managerId),
+                DefaultShift5(date, managerId),
+                DefaultShift6(date, managerId)
+            };
+        }
     }
 }

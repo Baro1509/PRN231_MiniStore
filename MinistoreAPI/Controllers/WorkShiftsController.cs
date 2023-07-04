@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataAccess.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Repository;
@@ -21,6 +22,19 @@ namespace MinistoreAPI.Controllers
         {
             _workShiftRepo.CreateDefaultWorkShiftsForDate(new DateOnly(year, month, date), managerId);
             return Ok();
+        }
+        public IActionResult Post([FromODataUri] int year, [FromODataUri] int month, [FromODataUri] int date, [FromODataUri] string managerId, [FromODataUri] int shiftOrderId)
+        {
+            _workShiftRepo.CreateDefaultWorkShift(new DateOnly(year, month, date), managerId, shiftOrderId);
+            return Ok();
+        }
+        public IActionResult Put([FromBody] WorkShift workShift)
+        {
+            return _workShiftRepo.Update(workShift) ? Ok() : NotFound();
+        }
+        public IActionResult Delete([FromODataUri] int workShift)
+        {
+            return _workShiftRepo.DeleteWorkShift(workShift) ? Ok() : NotFound();
         }
     }
 }

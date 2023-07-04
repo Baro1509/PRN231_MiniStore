@@ -15,37 +15,22 @@ namespace Repository.Implement
             _workshiftDAO = workshiftDAO;
             _dutyDAO = dutyDAO;
         }
-        public void CreateWorkShift(WorkShift workShift)
-        {
-            if (workShift.Coefficient == 0)
-            {
-                workShift.Coefficient = 1;
-            }
-            workShift.Status = (byte?)DataAccess.Constants.Status.Available;
-            _workshiftDAO.Create(workShift);
-        }
-
         public void CreateDefaultWorkShiftsForDate(DateOnly date, string managerId)
         {
-            WorkShift ws = DefaultWorkShift.DefaultShift1(date, managerId);
-            _workshiftDAO.Create(ws);
-
-            ws = DefaultWorkShift.DefaultShift2(date, managerId);
-            _workshiftDAO.Create(ws);
-
-            ws = DefaultWorkShift.DefaultShift3(date, managerId);
-            _workshiftDAO.Create(ws);
-
-            ws = DefaultWorkShift.DefaultShift4(date, managerId);
-            _workshiftDAO.Create(ws);
-
-            ws = DefaultWorkShift.DefaultShift5(date, managerId);
-            _workshiftDAO.Create(ws);
-
-            ws = DefaultWorkShift.DefaultShift6(date, managerId);
-            _workshiftDAO.Create(ws);
+            List<WorkShift> workShifts = DefaultWorkShift.DefaultShifts(date, managerId);
+            foreach (WorkShift ws in workShifts)
+            {
+                _workshiftDAO.Create(ws);
+            }
         }
-
+        public void CreateDefaultWorkShift(DateOnly date, string managerId, int shiftOrder)
+        {
+            List<WorkShift> workShifts = DefaultWorkShift.DefaultShifts(date, managerId);
+            if (shiftOrder > 0 && shiftOrder <= workShifts.Count)
+            {
+                _workshiftDAO.Create(workShifts[shiftOrder - 1]);
+            }
+        }
         /*
          * Delete if workshift has no duty, else update workshift status
          */
@@ -72,9 +57,15 @@ namespace Repository.Implement
             return _workshiftDAO.GetAllByStartDate(date).ToList();
         }
 
-        public void Update(WorkShift ws)
+        public bool Update(WorkShift ws)
         {
-            _workshiftDAO.Update(ws);
+            var found = _workshiftDAO.Get(ws.ShiftId);
+            if (found != null && ws.Coefficient > 0 && ws.Bonus >= 0 && ws.StartTime < ws.EndTime)
+            {
+                _workshiftDAO.Update(ws);
+                return true;
+            }
+            return false;
         }
     }
 }
