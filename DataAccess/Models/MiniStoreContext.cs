@@ -208,7 +208,7 @@ namespace DataAccess.Models
 
                 entity.Property(e => e.EndTime).HasColumnType("datetime");
 
-                entity.Property(e => e.MonthSalary1)
+                entity.Property(e => e.Salary)
                     .HasColumnType("money")
                     .HasColumnName("MonthSalary");
 

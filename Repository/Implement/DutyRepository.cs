@@ -57,7 +57,7 @@ namespace Repository.Implement
                 TimeOnly time = new TimeOnly(0, 0);
                 DateTime from = dateOnly.AddDays(-dayOfWeek).ToDateTime(time);
                 DateTime to = dateOnly.AddDays(7 - dayOfWeek).ToDateTime(time);
-                var found = _dutyDAO.GetDutiesByStaffInRange(staffId, from, to);
+                var found = _dutyDAO.GetStaffSchedule(staffId, from, to);
                 if (found.Any())
                 {
                     duties = found.ToList();
