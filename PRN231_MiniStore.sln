@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinistoreAPI", "MinistoreAPI\MinistoreAPI.csproj", "{0EEE9A22-3288-4F09-BB01-6CF00A061D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinistoreFE", "MinistoreFE\MinistoreFE.csproj", "{0010AF43-68D2-4B1B-82D2-F5D6A8E5EA71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinistoreFE", "MinistoreFE\MinistoreFE.csproj", "{0010AF43-68D2-4B1B-82D2-F5D6A8E5EA71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
