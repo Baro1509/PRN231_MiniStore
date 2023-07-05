@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Repository.Implement {
         }
 
         public Product Get(int productId) {
-            return _productDAO.GetAll().Where(p => p.ProductId == productId && p.Status == 1).FirstOrDefault();
+            return _productDAO.GetAll().Where(p => p.ProductId == productId && p.Status == 1).Include(p => p.Category).FirstOrDefault();
         }
 
         public List<Category> GetAllCategory() {
@@ -34,7 +35,7 @@ namespace Repository.Implement {
         }
 
         public List<Product> GetAllProduct() {
-            return _productDAO.GetAll().Where(p => p.Status == 1).ToList();
+            return _productDAO.GetAll().Where(p => p.Status == 1).Include(p => p.Category).ToList();
         }
 
         public void Update(Product product) {

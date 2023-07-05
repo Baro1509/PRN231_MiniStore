@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 ODataConventionModelBuilder odataBuilder = new ODataConventionModelBuilder();
 odataBuilder.EntitySet<Product>("Products");
+odataBuilder.EntitySet<Category>("Categories");
 odataBuilder.EntitySet<Invoice>("Invoices");
 odataBuilder.EntitySet<Attendance>("Attendances");
 odataBuilder.EntitySet<WorkShift>("WorkShifts");
@@ -38,6 +39,7 @@ builder.Services.AddScoped<IDutyRepository, DutyRepository>();
 builder.Services.AddScoped<IMonthSalaryRepository, MonthSalaryRepository>();
 builder.Services.AddScoped<IShiftSalaryRepository, ShiftSalaryRepository>();
 builder.Services.AddScoped<CategoryDAO>();
+builder.Services.AddScoped<StaffDAO>();
 builder.Services.AddScoped<ProductDAO>();
 builder.Services.AddScoped<InvoiceDAO>();
 builder.Services.AddScoped<AttendanceDAO>();
@@ -50,16 +52,16 @@ builder.Services.AddScoped<MonthSalaryDAO>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
+	options.RequireHttpsMetadata = false;
+	options.SaveToken = true;
+	options.TokenValidationParameters = new TokenValidationParameters()
+	{
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidAudience = builder.Configuration["Jwt:Audience"],
+		ValidIssuer = builder.Configuration["Jwt:Issuer"],
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+	};
 });
 
 var app = builder.Build();
@@ -67,8 +69,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
