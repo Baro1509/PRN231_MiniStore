@@ -59,7 +59,7 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.Attendances)
                     .HasForeignKey(d => d.StaffId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Attendanc__Staff__619B8048");
+                    .HasConstraintName("FK__Attendanc__Staff__45BE5BA9");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -100,13 +100,13 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.Duties)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Duty__AssignedTo__4F7CD00D");
+                    .HasConstraintName("FK__Duty__AssignedTo__2EDAF651");
 
                 entity.HasOne(d => d.Shift)
                     .WithMany(p => p.Duties)
                     .HasForeignKey(d => d.ShiftId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Duty__ShiftID__4E88ABD4");
+                    .HasConstraintName("FK__Duty__ShiftID__2DE6D218");
             });
 
             modelBuilder.Entity<Invoice>(entity =>
@@ -130,14 +130,15 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.StaffId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Invoice__StaffID__412EB0B6");
+                    .HasConstraintName("FK__Invoice__StaffID__208CD6FA");
             });
 
             modelBuilder.Entity<InvoiceDetail>(entity =>
             {
-                entity.ToTable("InvoiceDetail");
+                entity.HasKey(e => new { e.InvoiceId, e.ProductId })
+                    .HasName("PK__InvoiceD__1CD666BBCF7F513E");
 
-                entity.Property(e => e.InvoiceDetailId).HasColumnName("InvoiceDetailID");
+                entity.ToTable("InvoiceDetail");
 
                 entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
 
@@ -149,13 +150,13 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.InvoiceDetails)
                     .HasForeignKey(d => d.InvoiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__InvoiceDe__Invoi__440B1D61");
+                    .HasConstraintName("FK__InvoiceDe__Invoi__4F47C5E3");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.InvoiceDetails)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__InvoiceDe__Produ__44FF419A");
+                    .HasConstraintName("FK__InvoiceDe__Produ__503BEA1C");
             });
 
             modelBuilder.Entity<LeaveRequest>(entity =>
@@ -182,13 +183,13 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.LeaveRequestApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LeaveRequ__Appro__5DCAEF64");
+                    .HasConstraintName("FK__LeaveRequ__Appro__41EDCAC5");
 
                 entity.HasOne(d => d.RequestedByNavigation)
                     .WithMany(p => p.LeaveRequestRequestedByNavigations)
                     .HasForeignKey(d => d.RequestedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LeaveRequ__Reque__5CD6CB2B");
+                    .HasConstraintName("FK__LeaveRequ__Reque__40F9A68C");
             });
 
             modelBuilder.Entity<MonthSalary>(entity =>
@@ -207,9 +208,7 @@ namespace MinistoreFE.Models
 
                 entity.Property(e => e.EndTime).HasColumnType("datetime");
 
-                entity.Property(e => e.MonthSalary1)
-                    .HasColumnType("money")
-                    .HasColumnName("MonthSalary");
+                entity.Property(e => e.Salary).HasColumnType("money");
 
                 entity.Property(e => e.StartTime).HasColumnType("datetime");
 
@@ -219,19 +218,19 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.MonthSalaryApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthSala__Appro__04E4BC85");
+                    .HasConstraintName("FK__MonthSala__Appro__59C55456");
 
                 entity.HasOne(d => d.AssignedToNavigation)
                     .WithMany(p => p.MonthSalaryAssignedToNavigations)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthSala__Assig__03F0984C");
+                    .HasConstraintName("FK__MonthSala__Assig__58D1301D");
             });
 
             modelBuilder.Entity<MonthlyBonu>(entity =>
             {
                 entity.HasKey(e => e.MonthlyBonusId)
-                    .HasName("PK__MonthlyB__2C75704CDA26033F");
+                    .HasName("PK__MonthlyB__2C75704C5D5946C5");
 
                 entity.Property(e => e.MonthlyBonusId).HasColumnName("MonthlyBonusID");
 
@@ -255,13 +254,13 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.MonthlyBonuApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthlyBo__Appro__59063A47");
+                    .HasConstraintName("FK__MonthlyBo__Appro__3D2915A8");
 
                 entity.HasOne(d => d.AssignedToNavigation)
                     .WithMany(p => p.MonthlyBonuAssignedToNavigations)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthlyBo__Assig__5812160E");
+                    .HasConstraintName("FK__MonthlyBo__Assig__3C34F16F");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -291,7 +290,7 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Product__Categor__3D5E1FD2");
+                    .HasConstraintName("FK__Product__Categor__1CBC4616");
             });
 
             modelBuilder.Entity<ShiftSalary>(entity =>
@@ -308,11 +307,9 @@ namespace MinistoreFE.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EndTime).HasColumnType("datetime");
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Salary).HasColumnType("money");
-
-                entity.Property(e => e.StartTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
@@ -320,19 +317,19 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.ShiftSalaryApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ShiftSala__Appro__5441852A");
+                    .HasConstraintName("FK__ShiftSala__Appro__55009F39");
 
                 entity.HasOne(d => d.AssignedToNavigation)
                     .WithMany(p => p.ShiftSalaryAssignedToNavigations)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ShiftSala__Assig__534D60F1");
+                    .HasConstraintName("FK__ShiftSala__Assig__540C7B00");
             });
 
             modelBuilder.Entity<WorkShift>(entity =>
             {
                 entity.HasKey(e => e.ShiftId)
-                    .HasName("PK__WorkShif__C0A838E18FAF60DD");
+                    .HasName("PK__WorkShif__C0A838E1816E463B");
 
                 entity.ToTable("WorkShift");
 
@@ -358,7 +355,7 @@ namespace MinistoreFE.Models
                     .WithMany(p => p.WorkShifts)
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__WorkShift__Creat__4AB81AF0");
+                    .HasConstraintName("FK__WorkShift__Creat__2A164134");
             });
 
             modelBuilder.Entity<staff>(entity =>

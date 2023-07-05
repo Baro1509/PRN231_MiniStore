@@ -9,8 +9,7 @@ namespace MinistoreFE.Models
         public string AssignedTo { get; set; } = null!;
         public string ApprovedBy { get; set; } = null!;
         public decimal Salary { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime CreatedTime { get; set; }
         public byte? Status { get; set; }
 
         public virtual staff ApprovedByNavigation { get; set; } = null!;

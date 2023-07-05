@@ -5,7 +5,6 @@ namespace MinistoreFE.Models
 {
     public partial class InvoiceDetail
     {
-        public int InvoiceDetailId { get; set; }
         public int InvoiceId { get; set; }
         public int ProductId { get; set; }
         public decimal UnitPrice { get; set; }
