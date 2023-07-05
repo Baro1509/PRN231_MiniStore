@@ -1,5 +1,4 @@
 ﻿using DataAccess;
-using DataAccess.Constants;
 using DataAccess.Models;
 
 namespace Repository.Implement
@@ -45,7 +44,7 @@ namespace Repository.Implement
 						monthSalary.ApprovedBy = managerId;
 						monthSalary.StartTime = from;
 						monthSalary.EndTime = to;
-						monthSalary.Status = (byte?)Status.Available;
+						monthSalary.Status = (byte?)DataAccess.Constants.Status.Available;
 						monthSalary.Salary = sum;
 						_monthSalaryDAO.Create(monthSalary);
 					}
