@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccess.Models
+namespace MinistoreFE.Models
 {
-    public partial class MonthSalary
+    public partial class ShiftSalary
     {
-        public int MonthSalaryId { get; set; }
+        public int ShiftSalaryId { get; set; }
         public string AssignedTo { get; set; } = null!;
         public string ApprovedBy { get; set; } = null!;
         public decimal Salary { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime CreatedTime { get; set; }
         public byte? Status { get; set; }
 
         public virtual staff ApprovedByNavigation { get; set; } = null!;

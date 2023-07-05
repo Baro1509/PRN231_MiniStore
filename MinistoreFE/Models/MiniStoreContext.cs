@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DataAccess.Models
+namespace MinistoreFE.Models
 {
     public partial class MiniStoreContext : DbContext
     {
@@ -139,6 +139,7 @@ namespace DataAccess.Models
                     .HasName("PK__InvoiceD__1CD666BBCF7F513E");
 
                 entity.ToTable("InvoiceDetail");
+
                 entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");

@@ -1,0 +1,98 @@
+﻿@page
+@model MinistoreFE.Pages.Salesman.CheckoutModel
+
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "_LayoutSalesman";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Salesman</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a asp-page="/Salesman/Dashboard">Salesman</a>
+                </li>
+                <li class="breadcrumb-item active">Checkout</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <form method="post" asp-page-handler="Submit">
+                <input type="submit" class="btn add-btn"/>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<div class="row filter-row">
+    <div class="col-sm-6 col-md-9">
+        <div class="form-group form-focus">
+            <input type="text" class="form-control floating">
+            <label class="focus-label">Product Name</label>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="d-grid">
+            <a href="#" class="btn btn-success w-100"> Search </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-striped custom-table datatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].ProductName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].UnitPrice)
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Category)
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Product) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnitsInStock)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                            </td>
+                            <td>
+                                <form asp-page-handler="Remove" method="post">
+                                    <input type="hidden" name="productId" asp-for="@item.ProductId" />
+                                    <input type="submit" class="btn btn-danger" value="Remove">
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

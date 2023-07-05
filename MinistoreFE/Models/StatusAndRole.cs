@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Models {
+namespace MinistoreFE.Models {
     public enum Status {
         Available = 1,
         Deleted = 0

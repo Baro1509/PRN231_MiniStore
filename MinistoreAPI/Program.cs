@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 ODataConventionModelBuilder odataBuilder = new ODataConventionModelBuilder();
 odataBuilder.EntitySet<Product>("Products");
+odataBuilder.EntitySet<Category>("Categories");
 odataBuilder.EntitySet<Invoice>("Invoices");
 builder.Services.AddControllers().AddOData(options => options.Select().Filter()
 .Count().OrderBy().Expand().SetMaxTop(null).AddRouteComponents("odata", odataBuilder.GetEdmModel()));
@@ -27,7 +28,9 @@ builder.Services.AddDbContext<MiniStoreContext>(
   options => options.UseSqlServer("name=ConnectionStrings:MinistoreBao"));
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<CategoryDAO>();
+builder.Services.AddScoped<StaffDAO>();
 builder.Services.AddScoped<ProductDAO>();
 builder.Services.AddScoped<InvoiceDAO>();
 
