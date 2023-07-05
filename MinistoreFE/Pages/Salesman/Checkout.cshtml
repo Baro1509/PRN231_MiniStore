@@ -1,8 +1,8 @@
 ﻿@page
-@model MinistoreFE.Pages.Salesman.Products.IndexModel
+@model MinistoreFE.Pages.Salesman.CheckoutModel
 
 @{
-    ViewData["Title"] = "Product list";
+    ViewData["Title"] = "Checkout";
     Layout = "_LayoutSalesman";
 }
 <div class="page-header">
@@ -13,13 +13,14 @@
                 <li class="breadcrumb-item">
                     <a asp-page="/Salesman/Dashboard">Salesman</a>
                 </li>
-                <li class="breadcrumb-item active">Products</li>
+                <li class="breadcrumb-item active">Checkout</li>
             </ul>
         </div>
         <div class="col-auto float-end ms-auto">
-            <a class="btn add-btn" asp-page="/Salesman/Checkout">
-                <i class="fa fa-cart-shopping"></i> Checkout
-            </a>
+            <form method="post" asp-page-handler="Submit">
+                <input type="submit" class="btn add-btn"/>
+            </form>
+            
         </div>
     </div>
 </div>
@@ -54,7 +55,7 @@
                             @Html.DisplayNameFor(model => model.Product[0].UnitPrice)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Product[0].UnitsInStock)
+                            Quantity
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Product[0].Category)
@@ -83,21 +84,10 @@
                                 @Html.DisplayFor(modelItem => item.Category.CategoryName)
                             </td>
                             <td>
-                                <div class="dropdown dropdown-action">
-                                    <a href="#" class="action-icon dropdown-toggle"
-                                       data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" asp-page="./Details" asp-route-id="@item.ProductId">
-                                            Details
-                                        </a>
-                                        <form asp-page-handler="Add" method="post">
-                                            <input type="hidden" name="productId" asp-for="@item.ProductId" />
-                                            <input type="submit" class="dropdown-item" value="Add to Cart">
-                                        </form>
-                                    </div>
-                                </div>
+                                <form asp-page-handler="Remove" method="post">
+                                    <input type="hidden" name="productId" asp-for="@item.ProductId" />
+                                    <input type="submit" class="btn btn-danger" value="Remove">
+                                </form>
                             </td>
                         </tr>
                     }
