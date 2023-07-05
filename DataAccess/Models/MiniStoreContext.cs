@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DataAccess.Models
 {
@@ -25,17 +27,14 @@ namespace DataAccess.Models
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ShiftSalary> ShiftSalaries { get; set; } = null!;
         public virtual DbSet<WorkShift> WorkShifts { get; set; } = null!;
-        public virtual DbSet<Staff> Staff { get; set; } = null!;
+        public virtual DbSet<Staff> staff { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var config = new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.json")
-                            .Build();
-
-                optionsBuilder.UseSqlServer(config.GetConnectionString("MinistoreVy"));
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=(local);Uid=sa;Pwd=1234567890;Database=MiniStore;Integrated Security=True;TrustServerCertificate=True");
             }
         }
 
@@ -49,18 +48,20 @@ namespace DataAccess.Models
 
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
-                entity.Property(e => e.IsCheckIn).HasDefaultValueSql("((0))");
-
                 entity.Property(e => e.StaffId)
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("StaffID");
 
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.Staff)
                     .WithMany(p => p.Attendances)
                     .HasForeignKey(d => d.StaffId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Attendanc__Staff__619B8048");
+                    .HasConstraintName("FK__Attendanc__Staff__6DCC4D03");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -101,13 +102,13 @@ namespace DataAccess.Models
                     .WithMany(p => p.Duties)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Duty__AssignedTo__4F7CD00D");
+                    .HasConstraintName("FK__Duty__AssignedTo__40058253");
 
                 entity.HasOne(d => d.Shift)
                     .WithMany(p => p.Duties)
                     .HasForeignKey(d => d.ShiftId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Duty__ShiftID__4E88ABD4");
+                    .HasConstraintName("FK__Duty__ShiftID__3F115E1A");
             });
 
             modelBuilder.Entity<Invoice>(entity =>
@@ -131,14 +132,15 @@ namespace DataAccess.Models
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.StaffId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Invoice__StaffID__412EB0B6");
+                    .HasConstraintName("FK__Invoice__StaffID__08B54D69");
             });
 
             modelBuilder.Entity<InvoiceDetail>(entity =>
             {
-                entity.ToTable("InvoiceDetail");
+                entity.HasKey(e => new { e.InvoiceId, e.ProductId })
+                    .HasName("PK__InvoiceD__1CD666BB9E5D067F");
 
-                entity.Property(e => e.InvoiceDetailId).HasColumnName("InvoiceDetailID");
+                entity.ToTable("InvoiceDetail");
 
                 entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
 
@@ -150,13 +152,13 @@ namespace DataAccess.Models
                     .WithMany(p => p.InvoiceDetails)
                     .HasForeignKey(d => d.InvoiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__InvoiceDe__Invoi__440B1D61");
+                    .HasConstraintName("FK__InvoiceDe__Invoi__756D6ECB");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.InvoiceDetails)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__InvoiceDe__Produ__44FF419A");
+                    .HasConstraintName("FK__InvoiceDe__Produ__76619304");
             });
 
             modelBuilder.Entity<LeaveRequest>(entity =>
@@ -183,13 +185,13 @@ namespace DataAccess.Models
                     .WithMany(p => p.LeaveRequestApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LeaveRequ__Appro__5DCAEF64");
+                    .HasConstraintName("FK__LeaveRequ__Appro__489AC854");
 
                 entity.HasOne(d => d.RequestedByNavigation)
                     .WithMany(p => p.LeaveRequestRequestedByNavigations)
                     .HasForeignKey(d => d.RequestedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LeaveRequ__Reque__5CD6CB2B");
+                    .HasConstraintName("FK__LeaveRequ__Reque__47A6A41B");
             });
 
             modelBuilder.Entity<MonthSalary>(entity =>
@@ -208,9 +210,7 @@ namespace DataAccess.Models
 
                 entity.Property(e => e.EndTime).HasColumnType("datetime");
 
-                entity.Property(e => e.Salary)
-                    .HasColumnType("money")
-                    .HasColumnName("MonthSalary");
+                entity.Property(e => e.Salary).HasColumnType("money");
 
                 entity.Property(e => e.StartTime).HasColumnType("datetime");
 
@@ -220,19 +220,19 @@ namespace DataAccess.Models
                     .WithMany(p => p.MonthSalaryApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthSala__Appro__04E4BC85");
+                    .HasConstraintName("FK__MonthSala__Appro__0697FACD");
 
                 entity.HasOne(d => d.AssignedToNavigation)
                     .WithMany(p => p.MonthSalaryAssignedToNavigations)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthSala__Assig__03F0984C");
+                    .HasConstraintName("FK__MonthSala__Assig__05A3D694");
             });
 
             modelBuilder.Entity<MonthlyBonus>(entity =>
             {
                 entity.HasKey(e => e.MonthlyBonusId)
-                    .HasName("PK__MonthlyB__2C75704CDA26033F");
+                    .HasName("PK__MonthlyB__2C75704CF823D0CB");
 
                 entity.Property(e => e.MonthlyBonusId).HasColumnName("MonthlyBonusID");
 
@@ -256,13 +256,13 @@ namespace DataAccess.Models
                     .WithMany(p => p.MonthlyBonuApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthlyBo__Appro__59063A47");
+                    .HasConstraintName("FK__MonthlyBo__Appro__0B5CAFEA");
 
                 entity.HasOne(d => d.AssignedToNavigation)
                     .WithMany(p => p.MonthlyBonuAssignedToNavigations)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonthlyBo__Assig__5812160E");
+                    .HasConstraintName("FK__MonthlyBo__Assig__0A688BB1");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -292,7 +292,7 @@ namespace DataAccess.Models
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Product__Categor__3D5E1FD2");
+                    .HasConstraintName("FK__Product__Categor__04E4BC85");
             });
 
             modelBuilder.Entity<ShiftSalary>(entity =>
@@ -309,11 +309,9 @@ namespace DataAccess.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EndTime).HasColumnType("datetime");
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Salary).HasColumnType("money");
-
-                entity.Property(e => e.StartTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
@@ -321,19 +319,19 @@ namespace DataAccess.Models
                     .WithMany(p => p.ShiftSalaryApprovedByNavigations)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ShiftSala__Appro__5441852A");
+                    .HasConstraintName("FK__ShiftSala__Appro__01D345B0");
 
                 entity.HasOne(d => d.AssignedToNavigation)
                     .WithMany(p => p.ShiftSalaryAssignedToNavigations)
                     .HasForeignKey(d => d.AssignedTo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ShiftSala__Assig__534D60F1");
+                    .HasConstraintName("FK__ShiftSala__Assig__00DF2177");
             });
 
             modelBuilder.Entity<WorkShift>(entity =>
             {
                 entity.HasKey(e => e.ShiftId)
-                    .HasName("PK__WorkShif__C0A838E18FAF60DD");
+                    .HasName("PK__WorkShif__C0A838E1A10497B4");
 
                 entity.ToTable("WorkShift");
 
@@ -359,7 +357,7 @@ namespace DataAccess.Models
                     .WithMany(p => p.WorkShifts)
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__WorkShift__Creat__4AB81AF0");
+                    .HasConstraintName("FK__WorkShift__Creat__3B40CD36");
             });
 
             modelBuilder.Entity<Staff>(entity =>

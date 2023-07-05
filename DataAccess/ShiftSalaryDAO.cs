@@ -14,7 +14,7 @@ namespace DataAccess
         }
         public ShiftSalary? GetStaffSalaryByTime(string staffId, DateTime time)
         {
-            return GetAll().OrderByDescending(s => s.StartTime).FirstOrDefault(s => s.AssignedTo.Equals(staffId) && s.StartTime < time);
+            return GetAll().OrderByDescending(s => s.CreatedTime).FirstOrDefault(s => s.AssignedTo.Equals(staffId) && s.CreatedTime < time);
         }
     }
 }

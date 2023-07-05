@@ -88,7 +88,7 @@ namespace Repository.Implement
         * 1. GetCurrentShiftSalary latest checkin and checkout attendace with given staffId
         * 2. Calculate valid start time by substracting 10 mins from checkin time
         * 3. Calculate valid end time by adding 10 mins from checkout time
-        * 4. Find all duty of given staff where shift start time and end time is between the range
+        * 4. Find all duty of given Staff where shift start time and end time is between the range
         * 5. Update status of each found duty as Present
         */
         public bool UpdateLatestDutyStatus(string staffId)

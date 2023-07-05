@@ -21,7 +21,6 @@ namespace Repository.Implement
 			var manager = _staffDAO.GetStaff(shiftSalary.ApprovedBy);
 			if (staff != null && manager != null && shiftSalary.Salary >= 0)
 			{
-				shiftSalary.EndTime = null;
 				shiftSalary.Status = (byte?)Status.Available;
 				_shiftSalaryDAO.Create(shiftSalary);
 				return true;
@@ -31,7 +30,7 @@ namespace Repository.Implement
 
 		public ShiftSalary? GetCurrentShiftSalary(string staffId)
 		{
-			return _shiftSalaryDAO.GetAll().OrderByDescending(s => s.StartTime).FirstOrDefault(s => s.AssignedTo.Equals(staffId) && s.StartTime <= DateTime.Now);
+			return _shiftSalaryDAO.GetAll().OrderByDescending(s => s.CreatedTime).FirstOrDefault(s => s.AssignedTo.Equals(staffId) && s.CreatedTime <= DateTime.Now);
 		}
 
 		public bool Update(ShiftSalary shiftSalary)
@@ -42,8 +41,7 @@ namespace Repository.Implement
 				if (found != null)
 				{
 					found.Salary = shiftSalary.Salary;
-					found.StartTime = shiftSalary.StartTime;
-					found.EndTime = shiftSalary.EndTime;
+					found.CreatedTime = shiftSalary.CreatedTime;
 					_shiftSalaryDAO.Update(found);
 					return true;
 				}
@@ -54,9 +52,8 @@ namespace Repository.Implement
 			{
 				return Create(shiftSalary);
 			}
-			if (shiftSalary.StartTime >= currentSalary.StartTime)
+			if (shiftSalary.CreatedTime >= currentSalary.CreatedTime)
 			{
-				currentSalary.EndTime = shiftSalary.StartTime;
 				_shiftSalaryDAO.Update(currentSalary);
 				return Create(shiftSalary);
 			}
@@ -66,8 +63,8 @@ namespace Repository.Implement
 		{
 			var found = _shiftSalaryDAO.Get(shiftSalaryId);
 			DateTime now = DateTime.Now;
-			DateTime minStartTime = new DateTime(now.Year, now.Month, 1);
-			if (found != null && found.StartTime >= minStartTime)
+			DateTime minCreatedTime = new DateTime(now.Year, now.Month, 1);
+			if (found != null && found.CreatedTime >= minCreatedTime)
 			{
 				_shiftSalaryDAO.Delete(found);
 				return true;
