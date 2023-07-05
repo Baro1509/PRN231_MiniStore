@@ -10,13 +10,20 @@ using System.Threading.Tasks;
 namespace Repository.Implement {
     public class InvoiceRepository : IInvoiceRepository {
         private readonly InvoiceDAO _invoiceDAO;
+        private readonly ProductDAO _productDAO;
 
-        public InvoiceRepository(InvoiceDAO invoiceDAO) {
+        public InvoiceRepository(InvoiceDAO invoiceDAO, ProductDAO productDAO) {
             _invoiceDAO = invoiceDAO;
+            _productDAO = productDAO;
         }
 
         public void Add(Invoice invoice) {
             _invoiceDAO.Create(invoice);
+            foreach (var item in invoice.InvoiceDetails) {
+                var product = _productDAO.GetAll().Where(p => p.ProductId == item.ProductId).FirstOrDefault();
+                product.UnitsInStock -= item.Quantity;
+                _productDAO.Update(product);
+            }
         }
 
         public void Delete(int invoiceId) {
