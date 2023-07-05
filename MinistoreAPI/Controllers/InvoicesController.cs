@@ -23,7 +23,7 @@ namespace MinistoreAPI.Controllers {
 
         public IActionResult Post([FromBody] Invoice invoice) {
             _invoiceRepository.Add(invoice);
-            return Ok();
+            return Ok(new Invoice());
         }
         
         public IActionResult Delete([FromODataUri] int key) {

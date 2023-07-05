@@ -18,6 +18,7 @@ namespace MinistoreAPI.Controllers {
             return Ok(_repository.GetAllProduct());
         }
 
+        [EnableQuery]
         public IActionResult Get([FromODataUri] int key) {
             return Ok(_repository.Get(key));
         }
