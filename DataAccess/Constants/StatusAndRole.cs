@@ -25,12 +25,6 @@
         public static bool IsValid = true;
         public static bool IsInvalid = false;
     }
-
-    public enum Status
-    {
-        Available = 1,
-        Deleted = 0
-    }
     public enum ShiftSalaryStatus
     {
         Available = 1,

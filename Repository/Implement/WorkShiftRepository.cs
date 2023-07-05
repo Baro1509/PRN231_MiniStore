@@ -42,7 +42,7 @@ namespace Repository.Implement
                 var duty = _dutyDAO.GetDutiesByShift(shiftId);
                 if (duty.Any())
                 {
-                    ws.Status = (byte?)DataAccess.Constants.Status.Deleted;
+                    ws.Status = (byte?)Status.Deleted;
                     _workshiftDAO.Update(ws);
                     return true;
                 }

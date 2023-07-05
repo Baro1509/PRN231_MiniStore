@@ -29,7 +29,7 @@ namespace MinistoreAPI.Controllers
 			shiftSalary.Salary = request.Salary;
 			if (request.StartTime == null)
 			{
-				shiftSalary.StartTime = DateTime.Now;
+				shiftSalary.CreatedTime = DateTime.Now;
 			}
 			return _shiftSalaryRepo.Update(shiftSalary) ? Ok() : BadRequest();
 		}

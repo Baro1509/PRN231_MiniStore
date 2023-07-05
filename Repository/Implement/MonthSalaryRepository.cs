@@ -44,7 +44,7 @@ namespace Repository.Implement
 						monthSalary.ApprovedBy = managerId;
 						monthSalary.StartTime = from;
 						monthSalary.EndTime = to;
-						monthSalary.Status = (byte?)DataAccess.Constants.Status.Available;
+						monthSalary.Status = (byte?)Status.Available;
 						monthSalary.Salary = sum;
 						_monthSalaryDAO.Create(monthSalary);
 					}
