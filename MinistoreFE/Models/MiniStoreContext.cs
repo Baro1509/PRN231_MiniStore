@@ -27,7 +27,7 @@ namespace MinistoreFE.Models
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ShiftSalary> ShiftSalaries { get; set; } = null!;
         public virtual DbSet<WorkShift> WorkShifts { get; set; } = null!;
-        public virtual DbSet<staff> staff { get; set; } = null!;
+        public virtual DbSet<Staff> staff { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -358,7 +358,7 @@ namespace MinistoreFE.Models
                     .HasConstraintName("FK__WorkShift__Creat__2A164134");
             });
 
-            modelBuilder.Entity<staff>(entity =>
+            modelBuilder.Entity<Staff>(entity =>
             {
                 entity.ToTable("Staff");
 

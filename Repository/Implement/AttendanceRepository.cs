@@ -82,5 +82,7 @@ namespace Repository.Implement
         {
             return _attendanceDAO.GetAll().Where(a => a.StaffId.Equals(staffId)).ToList();
         }
+
+
     }
 }

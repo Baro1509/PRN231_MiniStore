@@ -26,10 +26,10 @@ namespace Repository.Implement
             if (staff != null && shift != null)
             {
                 Duty duty = new Duty();
-                duty.Status = (byte?)DutyStatus.Upcoming;
+                duty.Status = DutyStatus.Upcoming;
                 duty.ShiftId = workShiftId;
                 duty.AssignedTo = staffId;
-                duty.RoleId = DataAccess.Constants.Role.IsSalesMan(staff.RoleId) ? 1 : 0;
+                duty.RoleId = Role.IsSalesMan(staff.RoleId) ? 1 : 0;
                 _dutyDAO.Create(duty);
                 return true;
             }
@@ -65,6 +65,16 @@ namespace Repository.Implement
                 return duties;
             }
             return null;
+        }
+
+        public void UpdateAllDutyStatus()
+        {
+            List<Duty> duties = _dutyDAO.GetStaffIncompleteDuties().ToList();
+            foreach (var duty in duties)
+            {
+                duty.Status = DutyStatus.Absent;
+                _dutyDAO.Update(duty);
+            }
         }
 
         public bool UpdateDuty(Duty duty)
@@ -104,7 +114,7 @@ namespace Repository.Implement
                     List<Duty> duties = _dutyDAO.GetDutiesInRange(validStartTime, validEndTime).ToList();
                     foreach (Duty d in duties)
                     {
-                        d.Status = (byte?)DutyStatus.Present;
+                        d.Status = DutyStatus.Present;
                         _dutyDAO.Update(d);
                     }
                     return true;

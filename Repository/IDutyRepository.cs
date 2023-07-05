@@ -9,5 +9,6 @@ namespace Repository
 		public List<Duty>? GetStaffWeekDuties(string staffId, DateOnly dateOnly);
 		public bool UpdateDuty(Duty duty);
 		public bool DeleteDuty(int dutyId);
+		public void UpdateAllDutyStatus();
 	}
 }

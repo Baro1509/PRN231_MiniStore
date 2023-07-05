@@ -10,17 +10,17 @@ namespace DataAccess
         {
             return GetAll().Include(d => d.Shift);
         }
-        public IQueryable<Duty> GetDutiesInRange(DateTime startTime, DateTime endTime)
-        {
-            return GetAllDuties().Where(d => d.Shift.StartTime >= startTime && d.Shift.EndTime <= endTime);
-        }
         public IQueryable<Duty> GetStaffSchedule(string staffId, DateTime from, DateTime to)
         {
             return GetAllDuties().Where(d => d.AssignedTo.Equals(staffId) && d.Shift.StartTime >= from && d.Shift.StartTime < to);
         }
+        public IQueryable<Duty> GetDutiesInRange(DateTime startTime, DateTime endTime)
+        {
+            return GetAllDuties().Where(d => d.Shift.StartTime >= startTime && d.Shift.EndTime <= endTime);
+        }
         public IQueryable<Duty> GetStaffCompletedDuties(string staffId, DateTime from, DateTime to)
         {
-            return GetAllDuties().Where(d => d.AssignedTo.Equals(staffId) && d.Shift.EndTime > from && d.Shift.EndTime <= to && d.Status == (byte?)DutyStatus.Present);
+            return GetAllDuties().Where(d => d.AssignedTo.Equals(staffId) && d.Shift.EndTime > from && d.Shift.EndTime <= to && d.Status == DutyStatus.Present);
         }
 
         public IQueryable<Duty> GetDutiesByShift(int shiftId)
@@ -30,6 +30,11 @@ namespace DataAccess
         public Duty? GetById(int id)
         {
             return GetAllDuties().FirstOrDefault(d => d.DutyId == id);
+        }
+
+        public IQueryable<Duty> GetStaffIncompleteDuties()
+        {
+            return GetAllDuties().Where(d => d.Shift.EndTime < DateTime.Now && d.Status == DutyStatus.Upcoming);
         }
     }
 }

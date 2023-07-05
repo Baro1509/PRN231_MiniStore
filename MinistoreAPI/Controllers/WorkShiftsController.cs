@@ -1,6 +1,7 @@
 ﻿using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using MinistoreAPI.Request;
 using Repository;
@@ -15,6 +16,7 @@ namespace MinistoreAPI.Controllers
         {
             _workShiftRepo = workShiftRepo;
         }
+        [EnableQuery]
         public IActionResult Get([FromODataUri] int year, [FromODataUri] int month, [FromODataUri] int date)
         {
             return Ok(_workShiftRepo.GetAllByStartDate(new DateOnly(year, month, date)));

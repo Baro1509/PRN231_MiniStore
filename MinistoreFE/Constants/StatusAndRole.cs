@@ -1,4 +1,4 @@
-﻿namespace DataAccess.Constants
+﻿namespace MinistoreFE.Constants
 {
     public class Role
     {
@@ -42,7 +42,7 @@
         public static byte Present { get; } = 1;
 
         public static byte Absent { get; } = 2;
-        public static string GetStatus(byte status)
+        public static string GetStatus(byte? status)
         {
             switch (status)
             {
@@ -54,6 +54,17 @@
                     return "Upcoming";
             }
         }
-
+        public static string GetClassString(byte? status)
+        {
+            switch (status)
+            {
+                case 1:
+                    return "success";
+                case 2:
+                    return "danger";
+                default:
+                    return "info";
+            }
+        }
     }
 }

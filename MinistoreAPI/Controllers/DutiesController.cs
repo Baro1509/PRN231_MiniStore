@@ -1,6 +1,7 @@
 ﻿using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Repository;
 
@@ -14,6 +15,7 @@ namespace MinistoreAPI.Controllers
 		{
 			_dutyRepo = dutyRepo;
 		}
+		[EnableQuery]
 
 		public IActionResult Get([FromODataUri] int year, [FromODataUri] int month, [FromODataUri] int date, [FromODataUri] string staffId)
 		{
@@ -42,6 +44,12 @@ namespace MinistoreAPI.Controllers
 		public IActionResult Delete([FromRoute] int dutyId)
 		{
 			return _dutyRepo.DeleteDuty(dutyId) ? Ok() : NotFound();
+		}
+		[HttpPut("odata/Duties")]
+		public IActionResult UpdateDutyStatus()
+		{
+			_dutyRepo.UpdateAllDutyStatus();
+			return Ok();
 		}
 	}
 }

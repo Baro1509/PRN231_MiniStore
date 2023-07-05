@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MinistoreFE.Models
+﻿namespace MinistoreFE.Models
 {
-    public partial class staff
+    public partial class Staff
     {
-        public staff()
+        public Staff()
         {
             Attendances = new HashSet<Attendance>();
             Duties = new HashSet<Duty>();
