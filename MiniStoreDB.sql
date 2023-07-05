@@ -42,13 +42,12 @@ CREATE TABLE [dbo].Invoice(
 )
 -------------------------------------------------------------------------------
 CREATE TABLE [dbo].[InvoiceDetail](
-	InvoiceDetailID int identity,
 	[InvoiceID] [int] NOT NULL,
 	ProductID [int] NOT NULL,
 	[UnitPrice] [money] NOT NULL,
 	[Quantity] [int] NOT NULL,
 	[Discount] [float] NOT NULL,
-	PRIMARY KEY (InvoiceDetailID),
+	PRIMARY KEY (InvoiceID, ProductID),
     FOREIGN KEY ([InvoiceID]) REFERENCES Invoice([InvoiceID]),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 )
@@ -81,8 +80,7 @@ CREATE TABLE ShiftSalary(
 	[AssignedTo] varchar(10) NOT NULL,
 	[ApprovedBy] varchar(10) NOT NULL,
 	Salary money NOT NULL,
-	StartTime datetime NOT NULL,
-	EndTime datetime NULL,
+	CreatedTime datetime NOT NULL,
 	[Status] tinyint default 1,
 	PRIMARY KEY (ShiftSalaryID),
     FOREIGN KEY (AssignedTo) REFERENCES Staff(StaffID),
@@ -93,7 +91,7 @@ CREATE TABLE MonthSalary(
 	MonthSalaryID int identity not null,
 	[AssignedTo] varchar(10) NOT NULL,
 	[ApprovedBy] varchar(10) NOT NULL,
-	MonthSalary money NOT NULL,
+	Salary money NOT NULL,
 	StartTime datetime NOT NULL,
 	EndTime datetime NULL,
 	[Status] tinyint default 1,
@@ -140,7 +138,8 @@ CREATE TABLE Attendance(
 --drop table Attendance
 --drop table LeaveRequest
 --drop table MonthlyBonus
---drop table ShiftSalary
+--drop table MonthSalary
+drop table ShiftSalary
 --drop table Duty
 --drop table WorkShift
 --drop table InvoiceDetail
