@@ -1,4 +1,6 @@
-﻿namespace DataAccess.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DataAccess.Models
 {
 	public partial class WorkShift
 	{
@@ -6,7 +8,7 @@
 		{
 			Duties = new HashSet<Duty>();
 		}
-
+		[Key]
 		public int ShiftId { get; set; }
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
