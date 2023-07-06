@@ -47,6 +47,10 @@ namespace Repository.Implement {
             return _invoiceDAO.GetAll().Where(p => p.StaffId.Equals(staffId) && p.Status == 1).Include(p => p.InvoiceDetails).ToList();
         }
 
+        public Invoice GetLatestInvoice() {
+            return _invoiceDAO.GetAll().Where(p => p.Status == 1).Include(p => p.InvoiceDetails).OrderByDescending(p => p.InvoiceId).FirstOrDefault();
+        }
+
         public void Update(Invoice invoice) {
             _invoiceDAO.Update(invoice);
         }
