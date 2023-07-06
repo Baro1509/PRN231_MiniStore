@@ -34,7 +34,7 @@ namespace DataAccess.Models
                             .AddJsonFile("appsettings.json")
                             .Build();
 
-            optionsBuilder.UseSqlServer(config.GetConnectionString("MinistoreTran"));
+            optionsBuilder.UseSqlServer(config.GetConnectionString("MinistoreVy"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
