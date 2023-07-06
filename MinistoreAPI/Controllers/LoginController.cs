@@ -21,20 +21,19 @@ namespace FlowerBouquetAPI.Controllers {
 
         [HttpPost]
         public IActionResult Login([FromBody] LoginCredentials Login) {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            var email = config.GetValue<string>("Admin:Email");
-            var password = config.GetValue<string>("Admin:Password");
-            if (Login.Email.Equals(email) && Login.Password.Equals(password)) {
-                //HttpContext.Session.SetInt32("id", 0);
-                return Ok(new {
-                    role = "Admin",
-                    id = 0,
-                    token = GenerateJSONWebToken(new staff { StaffId = "Admin"})
-                });
-            }
+            //var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            //var email = config.GetValue<string>("Admin:Email");
+            //var password = config.GetValue<string>("Admin:Password");
+            //if (Login.Email.Equals(email) && Login.Password.Equals(password)) {
+            //    //HttpContext.Session.SetInt32("id", 0);
+            //    return Ok(new {
+            //        role = "Admin",
+            //        id = 0,
+            //        token = GenerateJSONWebToken(new staff { StaffId = "Admin"})
+            //    });
+            //}
             var staff = _staffRepository.Login(Login.Email, Login.Password);
             if (staff != null) {
-                //HttpContext.Session.SetInt32("id", customer.CustomerId);
                 return Ok(new {
                     role = staff.RoleId,
                     id = staff.StaffId,
