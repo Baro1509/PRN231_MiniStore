@@ -17,7 +17,22 @@
         {
             return SafeGuard.Equals(role);
         }
+        public static string GetStatus(string role)
+        {
+            switch (role)
+            {
+                case "SG":
+                    return "Safeguard";
+                case "SM":
+                    return "Salesman";
+                case "MG":
+                    return "Manager";
+                default:
+                    return "";
+            }
+        }
     }
+
     public class AttendanceStatus
     {
         public static bool CheckIn = true;
