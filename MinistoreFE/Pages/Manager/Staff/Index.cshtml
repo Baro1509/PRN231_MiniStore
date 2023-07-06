@@ -2,74 +2,59 @@
 @model MinistoreFE.Pages.Manager.Staff.IndexModel
 @{
 }
+@{
+	ViewData["Title"] = "Staff";
+	Layout = "_LayoutSalesman";
+}
 <div class="page-header">
-	<div class="row align-items-center">
-		<div class="col">
-			<h3 class="page-title">Salesman</h3>
-			<ul class="breadcrumb">
-				<li class="breadcrumb-item">
-					<a asp-page="/Manager/Dashboard">Manager</a>
-				</li>
-				<li class="breadcrumb-item active"></li>
-			</ul>
-		</div>
-	</div>
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Salesman</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a asp-page="/Manager/Dashboard">Manager</a>
+                </li>
+                <li class="breadcrumb-item active">Staff</li>
+            </ul>
+        </div>
+    </div>
 </div>
-    <div class="table-responsive">
-		<table class="table custom-table">
-			<thead>
-				<tr>
-					@foreach (var item in Model.WorkShifts)
-					{
-						<th>@item.StartTime.ToString("HH:mm") - @item.EndTime.ToString("HH:mm")</th>
-					}
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					@foreach (var item in Model.WorkShifts)
-					{
-						<td class="p-0 bg-soft-dark">
-							<div class="py-3 d-flex justify-content-center">
-								<a href="#" class="btn w-48" data-bs-toggle="modal" data-bs-target="#add"><i class="fa fa-plus"></i> Add </a>
-							</div>
-							@foreach (var duty in item.Duties)
-							{
-								<div class="card profile-box flex-fill">
-									<div class="card-body">
-										<div class="dropdown dropdown-action d-flex justify-content-end">
-											<a href="#" style="height:24px;" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-												<i class="fa fa-ellipsis"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right" style="">
-												<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit">
-													<i class="fa fa-pencil m-r-5"></i>
-													Edit
-												</a>
-												<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete">
-													<i class="fa fa-trash-can m-r-5"></i>
-													Delete
-												</a>
-											</div>
-										</div>
-										<ul class="personal-info">
-											<li>
-												<div class="title">Staff</div>
-												<div class="text">@duty.AssignedTo</div>
-											</li>
-											<li>
-												<div class="title">Status</div>
-												<div class="text">
-													<span class="badge bg-inverse-@DutyStatus.GetClassString(duty.Status)">@DutyStatus.GetStatus(duty.Status)</span>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-							}
-						</td>
-					}
-				</tr>
-			</tbody>
-		</table>
-	</div>
+ <a class="btn btn-primary" asp-page="./Create" >Create new staff</a> 
+<div class="table-responsive">
+    <table class="table custom-table">
+        <thead>
+            <tr>
+                <th>
+                    Staff ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var staff in Model.StaffS)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => staff.StaffId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => staff.StaffName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => staff.Status)
+                    </td>
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@staff.StaffId">Details</a> 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

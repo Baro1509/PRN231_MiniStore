@@ -6,10 +6,12 @@ namespace Repository.Implement
     public class StaffRepository : IStaffRepository
     {
         private readonly StaffDAO _staffDAO;
+        private readonly DutyDAO _dutyDAO;
 
-        public StaffRepository(StaffDAO staffDAO)
+        public StaffRepository(StaffDAO staffDAO, DutyDAO dutyDAO)
         {
             _staffDAO = staffDAO;
+            _dutyDAO = dutyDAO;
         }
 
         public Staff Login(string username, string password)
@@ -25,7 +27,8 @@ namespace Repository.Implement
             var found = _staffDAO.GetStaff(staff.StaffId);
             if (found != null)
             {
-                _staffDAO.Update(staff);
+                found.Status = staff.Status;
+                _staffDAO.Update(found);
                 return true;
             }
             return false;
@@ -33,7 +36,7 @@ namespace Repository.Implement
         public bool Create(Staff staff)
         {
             var found = _staffDAO.GetStaff(staff.StaffId);
-            if (staff == null)
+            if (found == null)
             {
                 _staffDAO.Create(staff);
                 return true;
@@ -52,6 +55,11 @@ namespace Repository.Implement
             }
             return false;
 
+        }
+
+        public List<Staff> GetAll()
+        {
+            return _staffDAO.GetAll().OrderByDescending(s => s.Status).ToList();
         }
     }
 }

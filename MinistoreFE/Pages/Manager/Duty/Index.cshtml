@@ -1,9 +1,17 @@
 ﻿@page
 @model MinistoreFE.Pages.Manager.Duty.IndexModel
 @using MinistoreFE.Constants;
+@using MinistoreFE.Models;
+
 @{
 	ViewData["Title"] = "Duty";
 	Layout = "_LayoutSalesman";
+}
+@{
+	void SetFreeStaff(WorkShift shift)
+	{
+		
+	}
 }
 <div class="page-header">
 	<div class="row align-items-center">
@@ -49,7 +57,9 @@
 					{
 						<td class="p-0 bg-soft-dark">
 							<div class="py-3 d-flex justify-content-center">
-								<a href="#" class="btn w-48" data-bs-toggle="modal" data-bs-target="#add"><i class="fa fa-plus"></i> Add </a>
+								<a onclick="@{
+							   SetFreeStaff(item);
+							   }" href="#" class="btn w-48" data-bs-toggle="modal" data-bs-target="#add"><i class="fa fa-plus"></i> Add </a>
 							</div>
 							@foreach (var duty in item.Duties)
 							{
@@ -192,6 +202,7 @@
 
 	th {
 		width: 250px;
+		text-align: center;
 	}
 
 	.table {

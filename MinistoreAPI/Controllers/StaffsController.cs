@@ -16,6 +16,10 @@ namespace MinistoreAPI.Controllers
             _staffRepo = staffRepo;
 
         }
+        public IActionResult Get()
+        {
+            return Ok(_staffRepo.GetAll());
+        }
         public IActionResult Post([FromBody] Staff staff)
         {
             return _staffRepo.Create(staff) ? Ok() : NotFound();

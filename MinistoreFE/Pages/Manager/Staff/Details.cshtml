@@ -1,5 +1,5 @@
 ﻿@page
-@model MinistoreFE.Pages.Staff.ProfileModel
+@model MinistoreFE.Pages.Manager.Staff.DetailsModel
 @{
 }
 @{
@@ -12,13 +12,14 @@
 			<h3 class="page-title">Salesman</h3>
 			<ul class="breadcrumb">
 				<li class="breadcrumb-item">
-					<a asp-page="/Index">Manager</a>
+					<a asp-page="./Index">Manager</a>
 				</li>
 				<li class="breadcrumb-item active">Details</li>
 			</ul>
 		</div>
 	</div>
 </div>
+<form  method="post">
  <div class="card mb-0">
           <div class="card-body">
             <div class="row">
@@ -49,14 +50,20 @@
                           </li>
                           <li>
                             <div class="title">Status:</div>
-                            @if(@Model.staff.Status==1){
+                             @if(@Model.staff.Status==1){
                             <div class="text">
                                    Available
                             </div>
+                            <input type="hidden" asp-for="@Model.staff.StaffId" />
+                            <input type="submit" href="#" class="btn btn-danger w-100" value="De-active"/>
+                            
                              }else{
                                 <div class="text">
                                    Deleted
                             </div>
+                             <input type="hidden" asp-for="@Model.staff.StaffId" />
+                            <input type="submit" href="#" class="btn btn-danger w-100" value="Active"/>
+                            
                             }
                           </li>
                         </ul>
@@ -102,4 +109,4 @@
           </div>
         </div>
       </div>
-
+</form>
