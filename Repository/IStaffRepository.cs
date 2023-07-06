@@ -8,5 +8,6 @@ using System.Threading.Tasks;
 namespace Repository {
     public interface IStaffRepository {
         public staff Login(string username, string password);
+        public staff Get(string id);
     }
 }

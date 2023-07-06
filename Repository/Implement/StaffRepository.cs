@@ -14,6 +14,10 @@ namespace Repository.Implement {
             _staffDAO = staffDAO;
         }
 
+        public staff Get(string id) {
+            return _staffDAO.GetAll().Where(p => p.StaffId.Equals(id)).FirstOrDefault();
+        }
+
         public staff Login(string username, string password) {
             return _staffDAO.GetAll().Where(p => p.StaffId == username && p.Password == password).FirstOrDefault();
         }
