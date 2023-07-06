@@ -1,5 +1,4 @@
 ﻿using DataAccess.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
@@ -7,20 +6,24 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FlowerBouquetAPI.Controllers {
+namespace MinistoreAPI.Controllers
+{
     [Route("odata/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase {
+    public class LoginController : ControllerBase
+    {
         private readonly IStaffRepository _staffRepository;
         private readonly IConfiguration _config;
 
-        public LoginController(IConfiguration config, IStaffRepository staffRepository) {
+        public LoginController(IConfiguration config, IStaffRepository staffRepository)
+        {
             _config = config;
             _staffRepository = staffRepository;
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody] LoginCredentials Login) {
+        public IActionResult Login([FromBody] LoginCredentials Login)
+        {
             //var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             //var email = config.GetValue<string>("Admin:Email");
             //var password = config.GetValue<string>("Admin:Password");
@@ -33,8 +36,10 @@ namespace FlowerBouquetAPI.Controllers {
             //    });
             //}
             var staff = _staffRepository.Login(Login.Email, Login.Password);
-            if (staff != null) {
-                return Ok(new {
+            if (staff != null)
+            {
+                return Ok(new
+                {
                     role = staff.RoleId,
                     id = staff.StaffId,
                     token = GenerateJSONWebToken(staff)
@@ -43,7 +48,8 @@ namespace FlowerBouquetAPI.Controllers {
             return Unauthorized();
         }
 
-        private string GenerateJSONWebToken(staff Staff) {
+        private string GenerateJSONWebToken(Staff Staff)
+        {
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, _config["Jwt:Subject"]),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -62,7 +68,8 @@ namespace FlowerBouquetAPI.Controllers {
         }
     }
 
-    public class LoginCredentials {
+    public class LoginCredentials
+    {
         public string Email { get; set; }
         public string Password { get; set; }
     }

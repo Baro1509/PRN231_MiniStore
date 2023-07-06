@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Configuration
+
+<!DOCTYPE html>
 <html lang="en" data-layout-mode="orange">
 <head>
     <meta charset="utf-8" />
@@ -70,29 +72,40 @@
                         <li class="menu-title">
                             <span>Salesman</span>
                         </li>
-                        @*<li>
-                            <a asp-page="/Salesman/Dashboard">
-                                <i class="la"></i> <span>Dashboard</span>
+                        <li>
+                            <a asp-page="/CheckIn"><i class="la"></i><span>Checkin</span></a>
+                        </li>
+                        <li>
+                            <a asp-page="/CheckOut"><i class="la"></i><span>Checkout</span></a>
+                        </li>
+                        <li>
+                            <a asp-page="/Salesman/Products/Index">
+                                <i class="la"></i> <span>Products</span>
                             </a>
                         </li>
                         <li>
+                            <a asp-page="/Staff/Profile">
+                                <i class="la"></i> <span>Profile</span>
+                            </a>
+                        </li>
+                        <!-- <li>
                             <a asp-page="/Salesman/LeaveRequest">
                                 <i class="la"></i> <span>LeaveRequest</span>
                             </a>
-                        </li>*@
+                        </li>-->
                         <li>
-                            <a asp-page="/Salesman/DutySheet">
-                                <i class="la"></i> <span>DutySheet</span>
+                            <a asp-page="/Staff/Duty">
+                                <i class="la"></i> <span>Duty Sheet</span>
                             </a>
                         </li>
                         <li>
-                            <a asp-page="/Salesman/SalaryReport">
+                            <a asp-page="/Staff/SalaryReport">
                                 <i class="la"></i> <span>Salary Report</span>
                             </a>
                         </li>
                         <li>
                             <a asp-page="/Salesman/Checkout">
-                                <i class="la"></i> <span>Cashier</span>
+                                <i class="la"></i> <span>Checkout</span>
                             </a>
                         </li>
                     </ul>

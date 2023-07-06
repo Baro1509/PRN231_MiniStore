@@ -1,33 +1,35 @@
 ﻿using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess {
-    public class DataAccessBase<T> where T : class {
+namespace DataAccess
+{
+    public class DataAccessBase<T> where T : class
+    {
         private readonly MiniStoreContext _context;
         private readonly DbSet<T> _dbSet;
-        public DataAccessBase() {
+        public DataAccessBase()
+        {
             _context = new MiniStoreContext();
             _dbSet = _context.Set<T>();
         }
-        public IQueryable<T> GetAll() {
+        public IQueryable<T> GetAll()
+        {
 
             return _dbSet;
         }
 
-        public void Create(T entity) {
+        public void Create(T entity)
+        {
             _dbSet.Add(entity);
             _context.SaveChanges();
         }
-        public void Delete(T entity) {
+        public void Delete(T entity)
+        {
             _dbSet.Remove(entity);
             _context.SaveChanges();
         }
-        public void Update(T entity) {
+        public void Update(T entity)
+        {
             var tracker = _context.Attach(entity);
             tracker.State = EntityState.Modified;
             //_dbSet.Update(entity);

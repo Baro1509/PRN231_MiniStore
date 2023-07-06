@@ -13,7 +13,7 @@ namespace DataAccess.Models
         public DateTime? EndTime { get; set; }
         public byte? Status { get; set; }
 
-        public virtual staff ApprovedByNavigation { get; set; } = null!;
-        public virtual staff AssignedToNavigation { get; set; } = null!;
+        public virtual Staff ApprovedByNavigation { get; set; } = null!;
+        public virtual Staff AssignedToNavigation { get; set; } = null!;
     }
 }

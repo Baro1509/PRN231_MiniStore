@@ -1,13 +1,15 @@
 ﻿using DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Repository {
-    public interface IStaffRepository {
-        public staff Login(string username, string password);
-        public staff Get(string id);
+namespace Repository
+{
+    public interface IStaffRepository
+    {
+        public Staff Login(string username, string password);
+        public Staff? GetStaff(string id);
+        public List<Staff> GetAll();
+        public bool Update(Staff staff);
+        public bool Create(Staff staff);
+        public bool Delete(string staffid);
+        public Staff Get(string id);
     }
 }

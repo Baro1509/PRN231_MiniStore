@@ -1,0 +1,119 @@
+﻿@page
+@model MinistoreFE.Pages.Staff.DutyModel
+@using MinistoreFE.Constants;
+@{
+	var role = HttpContext.Session.GetString("Role");
+	var layout = "_LayoutSafeguard";
+	if (Constants.Role.IsSalesMan(role))
+	{
+		layout = "_LayoutSalesman";
+	}
+}
+@{
+	ViewData["Title"] = "Duty";
+	Layout = layout;
+}
+<div class="page-header">
+	<div class="row align-items-center">
+		<div class="col">
+			<h3 class="page-title">Salesman</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a asp-page="/Salesman/Dashboard">Salesman</a>
+				</li>
+				<li class="breadcrumb-item active">Duty</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<form class="row filter-row" method="post">
+	<div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+		<div class="form-group form-focus">
+			<div class="cal-icon">
+				<input class="form-control floating datetimepicker" name="date" value="@Model.Date.ToString("dd/MM/yyyy")" type="text">
+			</div>
+			<label class="focus-label">Date</label>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+		<input type="submit" href="#" class="btn btn-success w-100" value="Search" />
+	</div>
+</form>
+
+<div>
+	<div class="table-responsive">
+		<table class="table custom-table">
+			<thead>
+				<tr>
+						@for (var i = 0; i < 7; i++)
+						{
+						<th>
+								@Model.Dates.ElementAt(i).DayOfWeek (@Model.Dates.ElementAt(i).ToString("dd/MM"))
+						</th>
+						}
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+
+					@for (var i = 0; i < 7; i++)
+					{
+					<td class="p-0 bg-soft-dark">
+							@foreach (var item in Model.Duties)
+							{
+								if (DateOnly.FromDateTime(item.Shift.StartTime) == Model.Dates.ElementAt(i))
+								{
+								<div class="card profile-box flex-fill">
+									<div class="card-body">
+										<ul class="personal-info">
+											<li>
+												<div class="title">From</div>
+												<div class="text">@item.Shift.StartTime.ToString("HH:mm")</div>
+											</li>
+											<li>
+												<div class="title">To</div>
+													<div class="text">@item.Shift.EndTime.ToString("HH:mm")</div>
+											</li>
+											<li>
+												<div class="title">Status</div>
+												<div class="text">
+													<span class="badge bg-inverse-@DutyStatus.GetClassString(item.Status)">@DutyStatus.GetStatus(item.Status)</span>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+								}
+
+							}
+					</td>
+					}
+			</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>
+<style>
+	.card {
+		margin-bottom: 0;
+		border-radius: 0;
+	}
+
+	th {
+		width: 200px;
+		text-align: center;
+	}
+
+	td {
+		width: 400px;
+	}
+
+	.table {
+		width: fit-content;
+	}
+	.table td {
+		vertical-align: top;
+	}
+</style>

@@ -23,18 +23,18 @@ namespace MinistoreFE.Models
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<LeaveRequest> LeaveRequests { get; set; } = null!;
         public virtual DbSet<MonthSalary> MonthSalaries { get; set; } = null!;
-        public virtual DbSet<MonthlyBonu> MonthlyBonus { get; set; } = null!;
+        public virtual DbSet<MonthlyBonus> MonthlyBonus { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ShiftSalary> ShiftSalaries { get; set; } = null!;
         public virtual DbSet<WorkShift> WorkShifts { get; set; } = null!;
-        public virtual DbSet<staff> staff { get; set; } = null!;
+        public virtual DbSet<Staff> staff { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=(local);database=MiniStore;uid=sa;pwd=12345678;TrustServerCertificate=true");
+                optionsBuilder.UseSqlServer("server=(local);database=MiniStore;uid=sa;pwd=1;TrustServerCertificate=true");
             }
         }
 
@@ -227,7 +227,7 @@ namespace MinistoreFE.Models
                     .HasConstraintName("FK__MonthSala__Assig__58D1301D");
             });
 
-            modelBuilder.Entity<MonthlyBonu>(entity =>
+            modelBuilder.Entity<MonthlyBonus>(entity =>
             {
                 entity.HasKey(e => e.MonthlyBonusId)
                     .HasName("PK__MonthlyB__2C75704C5D5946C5");
@@ -358,7 +358,7 @@ namespace MinistoreFE.Models
                     .HasConstraintName("FK__WorkShift__Creat__2A164134");
             });
 
-            modelBuilder.Entity<staff>(entity =>
+            modelBuilder.Entity<Staff>(entity =>
             {
                 entity.ToTable("Staff");
 

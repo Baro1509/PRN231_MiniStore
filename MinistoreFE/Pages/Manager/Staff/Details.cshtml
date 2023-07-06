@@ -1,0 +1,97 @@
+﻿@page
+@model MinistoreFE.Pages.Manager.Staff.DetailsModel
+@{
+}
+@{
+	ViewData["Title"] = "Staff";
+	Layout = "_LayoutManager";
+}
+<div class="page-header">
+	<div class="row align-items-center">
+		<div class="col">
+			<h3 class="page-title">Salesman</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a asp-page="./Index">Manager</a>
+				</li>
+				<li class="breadcrumb-item active">Details</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<form method="post">
+	<div class="card mb-0">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="profile-view">
+						<div class="profile-img-wrap">
+							<div class="profile-img">
+								<a href="#">
+									<img alt
+										 src="https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg">
+								</a>
+							</div>
+						</div>
+						<div class="profile-basic">
+							<div class="row">
+								<div>
+									<div class="profile-info-left">
+										<h3 class="user-name m-t-0 mb-2"> @Model.staff.StaffName</h3>
+									</div>
+									<div class="col-md-7">
+										<ul class="personal-info">
+											<li>
+												<div class="title">Staff ID:</div>
+												<div class="text"> @Model.staff.StaffId</div>
+											</li>
+											<li>
+												<div class="title">Role:</div>
+												<div class="text"> @Model.role</div>
+											</li>
+											<li>
+												<div class="title">Name:</div>
+												<div class="text">@Model.staff.StaffName</div>
+											</li>
+											@if (!Model.role.StartsWith("M"))
+											{
+
+												<li>
+													<div class="title">Salary:</div>
+													<div class="text">@Model.salary</div>
+												</li>
+											}
+											<li>
+												<div class="title">Status:</div>
+												@if (@Model.staff.Status == 1)
+												{
+													<div class="text">
+														Available
+													</div>
+													<input type="hidden" asp-for="@Model.staff.StaffId" />
+													<input type="submit" href="#" class="btn btn-danger w-48" value="De-active" />
+
+												}
+												else
+												{
+													<div class="text">
+														Deleted
+													</div>
+													<input type="hidden" asp-for="@Model.staff.StaffId" />
+													<input type="submit" href="#" class="btn btn-danger w-48" value="Active" />
+
+												}
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</form>

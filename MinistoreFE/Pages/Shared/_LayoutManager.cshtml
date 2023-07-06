@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-layout-mode="orange">
 <head>
     <meta charset="utf-8" />
@@ -84,7 +84,7 @@
                             <span>Manager</span>
                         </li>
                        @* <li>
-                            <a asp-page="/Manager/Dashboard">
+                            <a asp-page="/Manager/Staff/Index">
                                 <i class="la"></i> <span>Dashboard</span>
                             </a>
                         </li>
@@ -93,8 +93,15 @@
                                 <i class="la"></i> <span>LeaveRequest</span>
                             </a>
                         </li>*@
+                        
+						<li>
+							<a asp-page="/CheckIn"><i class="la"></i><span>Checkin</span></a>
+						</li>
+						<li>
+							<a asp-page="/CheckOut"><i class="la"></i><span>Checkout</span></a>
+						</li>
                         <li>
-                            <a asp-page="/Manager/DutySheet">
+                            <a asp-page="/Manager/Duty">
                                 <i class="la"></i> <span>DutySheet</span>
                             </a>
                         </li>
@@ -109,7 +116,7 @@
                             </a>
                         </li>
                         <li>
-                            <a asp-page="/Manager/Product/Index">
+                            <a asp-page="/Manager/Products/Index">
                                 <i class="la"></i> <span>All products</span>
                             </a>
                         </li>

@@ -1,8 +1,22 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.Extensions.Configuration
+
+@{
+    var role = HttpContext.Session.GetString("Role");
+    var layout = "_LayoutManager";
+    if (Constants.Role.IsSafeGuard(role))
+    {
+        layout = "_LayoutSafeguard";
+    }
+    if (Constants.Role.IsSalesMan(role))
+    {
+        layout = "_LayoutSalesman";
+    }
+}
 @{
     ViewData["Title"] = "Home page";
-    Layout = "_LayoutManager";
+    Layout = layout;
 }
 
 <div class="">

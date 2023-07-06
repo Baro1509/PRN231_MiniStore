@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
 using Repository;
 using Repository.Implement;
-using System.Diagnostics;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +15,12 @@ ODataConventionModelBuilder odataBuilder = new ODataConventionModelBuilder();
 odataBuilder.EntitySet<Product>("Products");
 odataBuilder.EntitySet<Category>("Categories");
 odataBuilder.EntitySet<Invoice>("Invoices");
+odataBuilder.EntitySet<Attendance>("Attendances");
+odataBuilder.EntitySet<WorkShift>("WorkShifts");
+odataBuilder.EntitySet<Duty>("Duties");
+odataBuilder.EntitySet<Staff>("Staffs");
+odataBuilder.EntitySet<MonthSalary>("MonthSalaries");
+odataBuilder.EntitySet<ShiftSalary>("ShiftSalaries");
 builder.Services.AddControllers().AddOData(options => options.Select().Filter()
 .Count().OrderBy().Expand().SetMaxTop(null).AddRouteComponents("odata", odataBuilder.GetEdmModel()));
 
@@ -25,19 +30,34 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MiniStoreContext>(
-  options => options.UseSqlServer("name=ConnectionStrings:MinistoreBao"));
+  options => options.UseSqlServer("name=ConnectionStrings:MinistoreTran"));
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IWorkShiftRepository, WorkShiftRepository>();
+builder.Services.AddScoped<IDutyRepository, DutyRepository>();
+builder.Services.AddScoped<IMonthSalaryRepository, MonthSalaryRepository>();
+builder.Services.AddScoped<IShiftSalaryRepository, ShiftSalaryRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<CategoryDAO>();
 builder.Services.AddScoped<StaffDAO>();
 builder.Services.AddScoped<ProductDAO>();
 builder.Services.AddScoped<InvoiceDAO>();
+builder.Services.AddScoped<AttendanceDAO>();
+builder.Services.AddScoped<DutyDAO>();
+builder.Services.AddScoped<WorkShiftDAO>();
+builder.Services.AddScoped<ShiftSalaryDAO>();
+builder.Services.AddScoped<StaffDAO>();
+builder.Services.AddScoped<MonthSalaryDAO>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters() {
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
@@ -49,7 +69,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
 }

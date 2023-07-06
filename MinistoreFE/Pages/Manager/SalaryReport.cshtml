@@ -1,0 +1,63 @@
+﻿@page
+@model MinistoreFE.Pages.Manager.SalaryReportModel
+@{
+	ViewData["Title"] = "Salary Report";
+	Layout = "_LayoutManager";
+}
+<div class="page-header">
+	<div class="row align-items-center">
+		<div class="col">
+			<h3 class="page-title">Manager</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a asp-page="/Manager/Staff/Index">Manager</a>
+				</li>
+				<li class="breadcrumb-item active">Salary Report</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<form class="row filter-row" method="post">
+	<div>Calculate salary of month: </div>
+	<div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+		<div class="form-group form-focus">
+			<div>
+				<input class="form-control floating" name="date" value="@Model.Date" type="month">
+			</div>
+			<label class="focus-label">Date</label>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+		<input type="submit" href="#" class="btn btn-success w-100" value="Go" />
+	</div>
+</form>
+<div>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Staff ID</th>
+					<th>Staff Name</th>
+					<th>Salary</th>
+					<th>Month</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var s in Model.Salaries)
+				{
+					<tr>
+						<td>@s.AssignedTo</td>
+						<td>@s.AssignedToNavigation.StaffName</td>
+						<td>@Math.Round(s.Salary, 0, MidpointRounding.AwayFromZero)</td>
+						<td>@s.StartTime.ToString("MM/yyyy")</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+<style>
+	th {
+		padding: 10px 20px;
+	}
+</style>

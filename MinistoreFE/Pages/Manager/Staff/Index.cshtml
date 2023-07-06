@@ -1,0 +1,60 @@
+﻿@page
+@model MinistoreFE.Pages.Manager.Staff.IndexModel
+@{
+}
+@{
+	ViewData["Title"] = "Staff";
+	Layout = "_LayoutManager";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Salesman</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a asp-page="/Manager/Staff/Index">Manager</a>
+                </li>
+                <li class="breadcrumb-item active">Staff</li>
+            </ul>
+        </div>
+    </div>
+</div>
+ <a class="btn btn-primary" asp-page="./Create" >Create new staff</a> 
+<div class="table-responsive">
+    <table class="table custom-table">
+        <thead>
+            <tr>
+                <th>
+                    Staff ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var staff in Model.StaffS)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => staff.StaffId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => staff.StaffName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => staff.Status)
+                    </td>
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@staff.StaffId">Details</a> 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

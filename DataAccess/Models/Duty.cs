@@ -11,7 +11,7 @@ namespace DataAccess.Models
         public string AssignedTo { get; set; } = null!;
         public byte? Status { get; set; }
 
-        public virtual staff AssignedToNavigation { get; set; } = null!;
+        public virtual Staff AssignedToNavigation { get; set; } = null!;
         public virtual WorkShift Shift { get; set; } = null!;
     }
 }

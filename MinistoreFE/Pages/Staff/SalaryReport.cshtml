@@ -1,0 +1,55 @@
+﻿@page
+@model MinistoreFE.Pages.Staff.SalaryReportModel
+@{
+	var role = HttpContext.Session.GetString("Role");
+	var layout = "_LayoutSafeguard";
+	if (Constants.Role.IsSalesMan(role))
+	{
+		layout = "_LayoutSalesman";
+	}
+}
+@{
+	ViewData["Title"] = "Salary Report";
+	Layout = layout;
+}
+<div class="page-header">
+	<div class="row align-items-center">
+		<div class="col">
+			<h3 class="page-title">Staff</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a asp-page="/Manager/Staff/Index">Staff</a>
+				</li>
+				<li class="breadcrumb-item active">Salary Report</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Month</th>
+					<th>Salary</th>
+					<th>Approved By</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var s in Model.Salaries)
+				{
+					<tr>
+						<td>@s.StartTime.ToString("MM/yyyy")</td>
+						<td>@Math.Round(s.Salary, 0, MidpointRounding.AwayFromZero)</td>
+						<td>@s.ApprovedBy</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+<style>
+	th {
+		padding: 10px 20px;
+	}
+</style>
