@@ -18,6 +18,7 @@ odataBuilder.EntitySet<Invoice>("Invoices");
 odataBuilder.EntitySet<Attendance>("Attendances");
 odataBuilder.EntitySet<WorkShift>("WorkShifts");
 odataBuilder.EntitySet<Duty>("Duties");
+odataBuilder.EntitySet<Staff>("Staffs");
 odataBuilder.EntitySet<MonthSalary>("MonthSalaries");
 odataBuilder.EntitySet<ShiftSalary>("ShiftSalaries");
 builder.Services.AddControllers().AddOData(options => options.Select().Filter()

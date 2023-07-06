@@ -5,7 +5,7 @@ using MinistoreFE.Models;
 using Simple.OData.Client;
 using System.Globalization;
 
-namespace MinistoreFE.Pages.Salesman
+namespace MinistoreFE.Pages.Staff
 {
     public class DutyModel : PageModel
     {

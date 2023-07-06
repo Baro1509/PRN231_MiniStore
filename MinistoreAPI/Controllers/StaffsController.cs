@@ -1,11 +1,13 @@
 ﻿using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Repository;
 
 
 namespace MinistoreAPI.Controllers
 {
-    public class StaffsController : Controller
+    public class StaffsController : ODataController
     {
         private readonly IStaffRepository _staffRepo;
 
@@ -18,13 +20,13 @@ namespace MinistoreAPI.Controllers
         {
             return _staffRepo.Create(staff) ? Ok() : NotFound();
         }
-        [HttpDelete("odata/Staffs/{staffid:string}")]
-        public IActionResult Delete([FromRoute] string staffId)
+        [HttpDelete("odata/Staffs")]
+        public IActionResult Delete([FromODataUri] string staffId)
         {
             return _staffRepo.Delete(staffId) ? Ok() : NotFound();
         }
-        [HttpPut("odata/Duties/{id:int}")]
-        public IActionResult Put([FromRoute] string id, [FromBody] Staff staff)
+        [HttpPut("odata/Staffs")]
+        public IActionResult Put([FromODataUri] string id, [FromBody] Staff staff)
         {
             if (id != staff.StaffId)
             {
