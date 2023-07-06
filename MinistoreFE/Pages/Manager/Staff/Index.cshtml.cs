@@ -21,6 +21,16 @@ namespace MinistoreFE.Pages.Manager.Staff
         public IList<Models.Staff> StaffS { get; set; } = default!;
         public async Task<IActionResult> OnGetAsync()
         {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token")))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isManager(HttpContext.Session.GetString("Role")))
+            {
+                return RedirectToPage("/Login");
+            }
+            var token = HttpContext.Session.GetString("Token");
+            _odataClient = OdataUtils.GetODataClient(token);
             var staffs = await _odataClient.For<Models.Staff>().FindEntriesAsync();
             StaffS = staffs.ToList();
             return Page();

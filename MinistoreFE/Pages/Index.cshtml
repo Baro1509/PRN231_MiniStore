@@ -5,7 +5,11 @@
 @{
     var role = HttpContext.Session.GetString("Role");
     var layout = "_LayoutManager";
-    if (!Constants.Role.IsManager(role))
+    if (Constants.Role.IsSafeGuard(role))
+    {
+        layout = "_LayoutSafeguard";
+    }
+    if (Constants.Role.IsSalesMan(role))
     {
         layout = "_LayoutSalesman";
     }

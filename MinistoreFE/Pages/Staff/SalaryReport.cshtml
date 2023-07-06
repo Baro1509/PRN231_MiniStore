@@ -1,8 +1,16 @@
 ﻿@page
 @model MinistoreFE.Pages.Staff.SalaryReportModel
 @{
+	var role = HttpContext.Session.GetString("Role");
+	var layout = "_LayoutSafeguard";
+	if (Constants.Role.IsSalesMan(role))
+	{
+		layout = "_LayoutSalesman";
+	}
+}
+@{
 	ViewData["Title"] = "Salary Report";
-	Layout = "_LayoutSalesman";
+	Layout = layout;
 }
 <div class="page-header">
 	<div class="row align-items-center">
@@ -10,7 +18,7 @@
 			<h3 class="page-title">Staff</h3>
 			<ul class="breadcrumb">
 				<li class="breadcrumb-item">
-					<a asp-page="/Manager/Dashboard">Staff</a>
+					<a asp-page="/Manager/Staff/Index">Staff</a>
 				</li>
 				<li class="breadcrumb-item active">Salary Report</li>
 			</ul>

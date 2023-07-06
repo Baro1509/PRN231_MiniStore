@@ -2,107 +2,103 @@
 @model MinistoreFE.Pages.Salesman.Products.IndexModel
 
 @{
-    ViewData["Title"] = "Product list";
-    Layout = "_LayoutSalesman";
+	ViewData["Title"] = "Product list";
+	Layout = "_LayoutSalesman";
 }
 <div class="page-header">
-    <div class="row align-items-center">
-        <div class="col">
-            <h3 class="page-title">Salesman</h3>
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a asp-page="/Salesman/Dashboard">Salesman</a>
-                </li>
-                <li class="breadcrumb-item active">Products</li>
-            </ul>
-        </div>
-        <div class="col-auto float-end ms-auto">
-            <a class="btn add-btn" asp-page="/Salesman/Checkout">
-                <i class="fa fa-cart-shopping"></i> Checkout
-            </a>
-        </div>
-    </div>
+	<div class="row align-items-center">
+		<div class="col">
+			<h3 class="page-title">Salesman</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a asp-page="/Salesman/Dashboard">Salesman</a>
+				</li>
+				<li class="breadcrumb-item active">Products</li>
+			</ul>
+		</div>
+		<div class="col-auto float-end ms-auto">
+			<a class="btn add-btn" asp-page="/Salesman/Checkout">
+				<i class="fa fa-cart-shopping"></i> Checkout
+			</a>
+		</div>
+	</div>
 </div>
 
 <div class="row filter-row">
-    <div class="col-sm-6 col-md-9">
-        <div class="form-group form-focus">
-            <input type="text" class="form-control floating">
-            <label class="focus-label">Product Name</label>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="d-grid">
-            <a href="#" class="btn btn-success w-100"> Search </a>
-        </div>
-    </div>
+	<div class="col-sm-6 col-md-9">
+		<div class="form-group form-focus">
+			<input type="text" class="form-control floating">
+			<label class="focus-label">Product Name</label>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="d-grid">
+			<a href="#" class="btn btn-success w-100"> Search </a>
+		</div>
+	</div>
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="table-responsive">
-            <table class="table table-striped custom-table datatable">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Product[0].ProductName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Product[0].Description)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Product[0].UnitPrice)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Product[0].UnitsInStock)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Product[0].Category)
-                        </th>
-                        <th>
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Product) {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UnitPrice)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UnitsInStock)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-                            </td>
-                            <td>
-                                <div class="dropdown dropdown-action">
-                                    <a href="#" class="action-icon dropdown-toggle"
-                                       data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" asp-page="./Details" asp-route-id="@item.ProductId">
-                                            Details
-                                        </a>
-                                        <form asp-page-handler="Add" method="post">
-                                            <input type="hidden" name="productId" asp-for="@item.ProductId" />
-                                            <input type="submit" class="dropdown-item" value="Add to Cart">
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+	<div class="col-md-12">
+		<div class="table-responsive">
+			<table class="table table-striped custom-table datatable">
+				<thead>
+					<tr>
+						<th>
+							@Html.DisplayNameFor(model => model.Product[0].ProductName)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Product[0].Description)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Product[0].UnitPrice)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Product[0].UnitsInStock)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Product[0].Category)
+						</th>
+						<th>
+							Action
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.Product)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => item.ProductName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Description)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.UnitPrice)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.UnitsInStock)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Category.CategoryName)
+							</td>
+							<td>
+
+								<div class="d-flex justify-content-between gap-2">
+									<a asp-page="./Details" asp-route-id="@item.ProductId">
+										Details
+									</a>
+									<form asp-page-handler="Add" method="post">
+										<input type="hidden" name="productId" asp-for="@item.ProductId" />
+										<input type="submit" class="dropdown-item" value="Add to Cart">
+									</form>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>

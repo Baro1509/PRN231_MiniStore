@@ -28,7 +28,7 @@ namespace MinistoreFE.Pages.Staff
             }
             if (Utils.isManager(HttpContext.Session.GetString("Role")))
             {
-                return RedirectToPage("/Manager/Dashboard");
+                return RedirectToPage("/Manager/Staff/Index");
             }
 
             _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
@@ -45,7 +45,7 @@ namespace MinistoreFE.Pages.Staff
             }
             if (Utils.isManager(HttpContext.Session.GetString("Role")))
             {
-                return RedirectToPage("/Manager/Dashboard");
+                return RedirectToPage("/Manager/Staff/Index");
             }
             _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
 

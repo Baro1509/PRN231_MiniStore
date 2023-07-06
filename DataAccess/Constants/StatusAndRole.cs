@@ -3,7 +3,7 @@
     public class Role
     {
         public static string SafeGuard = "SG";
-        public static string SalesMan = "SM";
+        public static string SalesMan = "SA";
         public static string Manager = "MG";
         public static bool IsSalesMan(string role)
         {
@@ -23,7 +23,7 @@
             {
                 case "SG":
                     return "Safeguard";
-                case "SM":
+                case "SA":
                     return "Salesman";
                 case "MG":
                     return "Manager";

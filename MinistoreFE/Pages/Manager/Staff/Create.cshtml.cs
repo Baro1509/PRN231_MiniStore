@@ -35,12 +35,23 @@ namespace MinistoreFE.Pages.Manager.Staff
         public async Task<IActionResult> OnPost(string StaffId, string Password, string StaffName, string role, decimal Salary)
         {
             var Staff = new Models.Staff();
-            ; StaffId = StaffId.Trim();
+            StaffId = StaffId.Trim();
             if (StaffId.Length < 3)
             {
                 ViewData["Message"] = "ID characters >= 3";
                 return Page();
             }
+
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token")))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isManager(HttpContext.Session.GetString("Role")))
+            {
+                return RedirectToPage("/Login");
+            }
+            var token = HttpContext.Session.GetString("Token");
+            _odataClient = OdataUtils.GetODataClient(token);
             var listStaff = await _odataClient.For<Models.Staff>().FindEntriesAsync();
             bool checkStaff = listStaff.Select(x => x.StaffId).Any(x => x.ToLower().Equals(StaffId.ToLower()));
             if (checkStaff)
@@ -57,6 +68,8 @@ namespace MinistoreFE.Pages.Manager.Staff
             var myContent = JsonConvert.SerializeObject(Staff);
             var byteContent = new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes(myContent));
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
+
             await client.PostAsync(api, byteContent);
 
 
@@ -67,6 +80,8 @@ namespace MinistoreFE.Pages.Manager.Staff
             var myContent1 = JsonConvert.SerializeObject(shiftRequest);
             var byteContent1 = new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes(myContent1));
             byteContent1.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
+
             await client.PostAsync(apiShift, byteContent1);
 
             return RedirectToPage("./Index");

@@ -17,38 +17,6 @@
     <link rel="stylesheet" href="~/plugins/lineawesome/line-awesome.min.css" asp-append-version="true" />
 </head>
 <body>
-    @*<header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container header">
-                <a class="navbar-brand" asp-area="" asp-page="/Manager/Index">Manager</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - MinistoreFE - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>*@
 
     <div class="main-wrapper">
         <div class="header">
@@ -68,7 +36,7 @@
                             <img src="~/img/avt.png" alt>
                             <span class="status online"></span>
                         </span>
-                        <span>@Context.Session.GetString("Id")</span>
+                        <span>Salesman</span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" asp-page="/Salesman/Profile">My Profile</a>
@@ -111,28 +79,33 @@
                             <a asp-page="/CheckOut"><i class="la"></i><span>Checkout</span></a>
                         </li>
                         <li>
-                            <a asp-page="/Salesman/Dashboard">
-                                <i class="la"></i> <span>Dashboard</span>
+                            <a asp-page="/Salesman/Products/Index">
+                                <i class="la"></i> <span>Products</span>
                             </a>
                         </li>
                         <li>
+                            <a asp-page="/Staff/Profile">
+                                <i class="la"></i> <span>Profile</span>
+                            </a>
+                        </li>
+                        <!-- <li>
                             <a asp-page="/Salesman/LeaveRequest">
-                                <i class="la"></i> <span>Leave Request</span>
+                                <i class="la"></i> <span>LeaveRequest</span>
                             </a>
-                        </li>
+                        </li>-->
                         <li>
-                            <a asp-page="/Salesman/Duty">
+                            <a asp-page="/Staff/Duty">
                                 <i class="la"></i> <span>Duty Sheet</span>
                             </a>
                         </li>
                         <li>
-                            <a asp-page="/Salesman/SalaryReport">
+                            <a asp-page="/Staff/SalaryReport">
                                 <i class="la"></i> <span>Salary Report</span>
                             </a>
                         </li>
                         <li>
-                            <a asp-page="/Salesman/Cashier">
-                                <i class="la"></i> <span>Cashier</span>
+                            <a asp-page="/Salesman/Checkout">
+                                <i class="la"></i> <span>Checkout</span>
                             </a>
                         </li>
                     </ul>

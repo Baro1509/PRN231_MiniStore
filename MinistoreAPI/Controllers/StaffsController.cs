@@ -22,6 +22,10 @@ namespace MinistoreAPI.Controllers
 		{
 			return Ok(_staffRepo.GetAll());
 		}
+		public IActionResult GetDetails([FromODataUri] string staffId)
+		{
+			return Ok(_staffRepo.GetAll().Where(s => s.StaffId.ToLower().Equals(staffId)));
+		}
 		public IActionResult Post([FromBody] Staff staff)
 		{
 			return _staffRepo.Create(staff) ? Ok() : NotFound();

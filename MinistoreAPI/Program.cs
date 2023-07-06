@@ -39,6 +39,7 @@ builder.Services.AddScoped<IWorkShiftRepository, WorkShiftRepository>();
 builder.Services.AddScoped<IDutyRepository, DutyRepository>();
 builder.Services.AddScoped<IMonthSalaryRepository, MonthSalaryRepository>();
 builder.Services.AddScoped<IShiftSalaryRepository, ShiftSalaryRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<CategoryDAO>();
 builder.Services.AddScoped<StaffDAO>();
 builder.Services.AddScoped<ProductDAO>();

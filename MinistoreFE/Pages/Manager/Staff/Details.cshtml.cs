@@ -24,18 +24,42 @@ namespace MinistoreFE.Pages.Manager.Staff
         public string role { get; set; }
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            staff = await _odataClient.For<Models.Staff>().QueryOptions($"staffId={id}").FindEntryAsync();
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token")))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isManager(HttpContext.Session.GetString("Role")))
+            {
+                return RedirectToPage("/Login");
+            }
+            var token = HttpContext.Session.GetString("Token");
+            _odataClient = OdataUtils.GetODataClient(token);
+            var staffs = await _odataClient.For<Models.Staff>().FindEntriesAsync();
+            staff = staffs.FirstOrDefault(s => s.StaffId.ToLower().Equals(id.ToLower()));
             if (staff == null)
             {
                 return NotFound();
             }
-            var salaryGet = await _odataClient.For<Models.ShiftSalary>().QueryOptions($"staffId={id}").FindEntryAsync();
-            salary = salaryGet.Salary;
+            if (!Constants.Role.IsManager(staff.RoleId))
+            {
+                var salaryGet = await _odataClient.For<Models.ShiftSalary>().QueryOptions($"staffId={staff.StaffId}").FindEntryAsync();
+                salary = salaryGet.Salary;
+            }
             role = Constants.Role.GetStatus(staff.RoleId);
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(string id)
         {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token")))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isManager(HttpContext.Session.GetString("Role")))
+            {
+                return RedirectToPage("/Login");
+            }
+            var token = HttpContext.Session.GetString("Token");
+            _odataClient = OdataUtils.GetODataClient(token);
             var staffTemp = await _odataClient.For<Models.Staff>().QueryOptions($"$filter=StaffId eq {id}").FindEntryAsync();
             if (staffTemp == null)
             {
@@ -53,6 +77,7 @@ namespace MinistoreFE.Pages.Manager.Staff
             var myContent = JsonConvert.SerializeObject(staffTemp);
             var byteContent = new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes(myContent));
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
             await client.PutAsync(api + $"?id={id}", byteContent);
 
             return RedirectToPage("./Index");

@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MinistoreFE.Models
 {
@@ -20,7 +23,7 @@ namespace MinistoreFE.Models
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<LeaveRequest> LeaveRequests { get; set; } = null!;
         public virtual DbSet<MonthSalary> MonthSalaries { get; set; } = null!;
-        public virtual DbSet<MonthlyBonu> MonthlyBonus { get; set; } = null!;
+        public virtual DbSet<MonthlyBonus> MonthlyBonus { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ShiftSalary> ShiftSalaries { get; set; } = null!;
         public virtual DbSet<WorkShift> WorkShifts { get; set; } = null!;
@@ -224,7 +227,7 @@ namespace MinistoreFE.Models
                     .HasConstraintName("FK__MonthSala__Assig__58D1301D");
             });
 
-            modelBuilder.Entity<MonthlyBonu>(entity =>
+            modelBuilder.Entity<MonthlyBonus>(entity =>
             {
                 entity.HasKey(e => e.MonthlyBonusId)
                     .HasName("PK__MonthlyB__2C75704C5D5946C5");

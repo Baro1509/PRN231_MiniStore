@@ -6,7 +6,7 @@ namespace MinistoreFE.Pages.Staff
     public class ProfileModel : PageModel
     {
         private ODataClient _odataClient;
-        private string StaffId = "VyLT";
+        private string StaffId;
         public ProfileModel()
         {
             _odataClient = OdataUtils.GetODataClient();
@@ -17,7 +17,16 @@ namespace MinistoreFE.Pages.Staff
         public string role { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
-            staff = await _odataClient.For<Models.Staff>().QueryOptions($"staffId={StaffId}").FindEntryAsync();
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token")))
+            {
+                return RedirectToPage("/Login");
+            }
+            StaffId = HttpContext.Session.GetString("Id");
+            string token = HttpContext.Session.GetString("Token");
+            _odataClient = OdataUtils.GetODataClient(token);
+
+            var staffs = await _odataClient.For<Models.Staff>().FindEntriesAsync();
+            staff = staffs.FirstOrDefault(s => s.StaffId.ToLower().Equals(StaffId.ToLower()));
             if (staff == null)
             {
                 return NotFound();

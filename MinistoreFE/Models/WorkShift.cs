@@ -1,4 +1,7 @@
-﻿namespace MinistoreFE.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace MinistoreFE.Models
 {
     public partial class WorkShift
     {

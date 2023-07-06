@@ -2,8 +2,16 @@
 @model MinistoreFE.Pages.Staff.DutyModel
 @using MinistoreFE.Constants;
 @{
+	var role = HttpContext.Session.GetString("Role");
+	var layout = "_LayoutSafeguard";
+	if (Constants.Role.IsSalesMan(role))
+	{
+		layout = "_LayoutSalesman";
+	}
+}
+@{
 	ViewData["Title"] = "Duty";
-	Layout = "_LayoutSalesman";
+	Layout = layout;
 }
 <div class="page-header">
 	<div class="row align-items-center">
