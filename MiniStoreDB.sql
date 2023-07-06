@@ -4,7 +4,7 @@ USE MiniStore
 CREATE TABLE [dbo].Staff(
 	StaffID varchar(10) NOT NULL,
 	RoleID varchar(2) NOT NULL,
-	[StaffName] [varchar](180) NOT NULL,
+	[StaffName] [nvarchar](180) NOT NULL,
 	[Password] [varchar](30) NOT NULL,
 	[Status] tinyint default 1,
 	PRIMARY KEY (StaffID)
@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[Category](
 CREATE TABLE [dbo].Product(
 	ProductID [int] identity NOT NULL,
 	[CategoryID] varchar(10) NOT NULL,
-	ProductName [varchar](40) NOT NULL,
+	ProductName [nvarchar](40) NOT NULL,
 	[Description] [varchar](220) NOT NULL,
 	[UnitPrice] [money] NOT NULL,
 	[UnitsInStock] [int] NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE Attendance(
 --drop table LeaveRequest
 --drop table MonthlyBonus
 --drop table MonthSalary
-drop table ShiftSalary
+--drop table ShiftSalary
 --drop table Duty
 --drop table WorkShift
 --drop table InvoiceDetail
@@ -149,4 +149,5 @@ drop table ShiftSalary
 --drop table Staff
 
 INSERT INTO Staff (StaffID, StaffName, RoleID, Password, Status) values ('VyLT', N'Luân Tường Vy', 'SM', '1', 1)
-INSERT INTO Staff (StaffID, StaffName, RoleID, Password, Status) values ('VyLT1', N'Luân Tường Vy', 'MA', '1', 1)
+INSERT INTO Staff (StaffID, StaffName, RoleID, Password, Status) values ('VyLT1', N'Luân Tường Vy', 'MG', '1', 1)
+INSERT INTO Staff (StaffID, StaffName, RoleID, Password, Status) values ('TranNB', N'Nguyễn Bảo Trân', 'SG', '1', 1)

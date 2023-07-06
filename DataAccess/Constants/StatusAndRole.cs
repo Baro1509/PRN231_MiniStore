@@ -4,7 +4,7 @@
     {
         public static string SafeGuard = "SG";
         public static string SalesMan = "SM";
-        public static string Manager = "MA";
+        public static string Manager = "MG";
         public static bool IsSalesMan(string role)
         {
             return SalesMan.Equals(role);

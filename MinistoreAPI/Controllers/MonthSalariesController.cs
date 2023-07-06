@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -7,6 +8,7 @@ using Repository;
 
 namespace MinistoreAPI.Controllers
 {
+	[Authorize]
 	public class MonthSalariesController : ODataController
 	{
 		private readonly IMonthSalaryRepository _monthSalaryRepo;

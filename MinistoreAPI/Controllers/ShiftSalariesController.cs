@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -7,6 +8,7 @@ using Repository;
 
 namespace MinistoreAPI.Controllers
 {
+	[Authorize]
 	public class ShiftSalariesController : ODataController
 	{
 		private readonly IShiftSalaryRepository _shiftSalaryRepo;

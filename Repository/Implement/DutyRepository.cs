@@ -77,18 +77,13 @@ namespace Repository.Implement
             }
         }
 
-        public bool UpdateDuty(Duty duty)
+        public bool UpdateDuty(int dutyId, byte? dutyStatus)
         {
-            var found = _dutyDAO.GetById(duty.DutyId);
+            var found = _dutyDAO.GetById(dutyId);
             if (found != null)
             {
-                var staff = _staffDAO.GetStaff(duty.AssignedTo);
-                if (staff != null)
-                {
-                    found.AssignedTo = duty.AssignedTo;
-                    found.Status = duty.Status;
-                    _dutyDAO.Update(found);
-                }
+                found.Status = dutyStatus;
+                _dutyDAO.Update(found);
                 return true;
             }
             return false;

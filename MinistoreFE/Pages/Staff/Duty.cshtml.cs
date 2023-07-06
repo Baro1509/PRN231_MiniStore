@@ -22,6 +22,16 @@ namespace MinistoreFE.Pages.Staff
         public DateTime Date { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token")))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (Utils.isManager(HttpContext.Session.GetString("Role")))
+            {
+                return RedirectToPage("/Manager/Dashboard");
+            }
+
+            _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
             CalcDate();
             var temp = await _odataClient.For<Duty>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}&staffId={StaffId}").Expand(d => d.Shift).FindEntriesAsync();
             Duties = temp.ToList();
@@ -29,6 +39,16 @@ namespace MinistoreFE.Pages.Staff
         }
         public async Task<IActionResult> OnPostAsync(string date)
         {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token")))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (Utils.isManager(HttpContext.Session.GetString("Role")))
+            {
+                return RedirectToPage("/Manager/Dashboard");
+            }
+            _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
+
             Date = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             CalcDate();
             var temp = await _odataClient.For<Duty>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}&staffId={StaffId}").Expand(d => d.Shift).FindEntriesAsync();

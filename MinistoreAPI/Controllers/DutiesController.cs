@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
@@ -7,6 +8,7 @@ using Repository;
 
 namespace MinistoreAPI.Controllers
 {
+	[Authorize]
 	public class DutiesController : ODataController
 	{
 		private readonly IDutyRepository _dutyRepo;
@@ -31,14 +33,10 @@ namespace MinistoreAPI.Controllers
 		{
 			return _dutyRepo.CreateDuty(duty.AssignedTo, duty.ShiftId) ? Ok() : NotFound();
 		}
-		[HttpPut("odata/Duties/{id:int}")]
-		public IActionResult Put([FromRoute] int id, [FromBody] Duty duty)
+		[HttpPost("odata/Duties/Update")]
+		public IActionResult PostUpdate([FromBody] Duty duty)
 		{
-			if (id != duty.DutyId)
-			{
-				return BadRequest();
-			}
-			return _dutyRepo.UpdateDuty(duty) ? Ok() : NotFound();
+			return _dutyRepo.UpdateDuty(duty.DutyId, duty.Status) ? Ok() : NotFound();
 		}
 		[HttpDelete("odata/Duties/{dutyId:int}")]
 		public IActionResult Delete([FromRoute] int dutyId)

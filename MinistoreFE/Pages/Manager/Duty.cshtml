@@ -1,11 +1,18 @@
 ﻿@page
-@model MinistoreFE.Pages.Manager.Duty.IndexModel
+@model MinistoreFE.Pages.Manager.DutyModel
 @using MinistoreFE.Constants;
 @using MinistoreFE.Models;
 
 @{
 	ViewData["Title"] = "Duty";
 	Layout = "_LayoutSalesman";
+}
+@section scripts{
+	<script>
+		if (location.href.includes('?')) {
+			history.pushState({}, null, location.href.split('?')[0]);
+		}
+	</script>
 }
 <div class="page-header">
 	<div class="row align-items-center">
@@ -106,36 +113,61 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<form>
+							<form method="post" asp-page-handler="Create">
+								<input hidden type="number" value="@item.ShiftId" name="shiftId" />
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label>Staff</label>
-											<div>
-												@{
-													Model.FreeStaffs = 
-													// Get all available staff
+											@{
+												Model.FreeStaffs =
+												// Get all available staff
 													Model.AllStaffs
 													// Get the staff not in current shift duty
 													.Where(staff => !item.Duties
-														.Select(d => d.AssignedTo)
-														.Any(dutyStaff => dutyStaff.Equals(staff.StaffId)))
-														.ToList();
-												}
-												@foreach (Models.Staff staff in Model.FreeStaffs)
-												{
-													<label class="d-flex justify-content-start align-items-center">
-														<input class="me-2 default_expense_approval" value="seq-approver" name="default_expense_approval" type="checkbox">
-														<span>@staff.StaffId</span>
-													</label>
-												}
-											</div>
+													.Select(d => d.AssignedTo)
+													.Any(dutyStaff => dutyStaff.Equals(staff.StaffId)))
+													.ToList();
+											}
+											@if (!Model.FreeStaffs.Any())
+											{
+												<div>There is no available staff for this shift.</div>
+											} else
+											{
+												<table class="table table-striped mb-0">
+													<thead>
+														<tr>
+															<th></th>
+															<th>ID</th>
+															<th>Name</th>
+															<th>Role</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach (Models.Staff staff in Model.FreeStaffs)
+														{
+															<tr>
+																<td>
+																	<input class="me-2 default_expense_approval" name="staffId" value="@staff.StaffId" type="checkbox">
+																</td>
+																<td>@staff.StaffId</td>
+																<td>@staff.StaffName</td>
+																<td>@staff.RoleId</td>
+															</tr>
+														}
+													</tbody>
+												</table>
+											}
 										</div>
 									</div>
 								</div>
-								<div class="submit-section">
-									<button class="btn btn-primary submit-btn">Add</button>
-								</div>
+								<input hidden name="date" value="@Model.Date" type="datetime" />
+								
+								@if (Model.FreeStaffs.Any())
+								{
+									<div class="submit-section">
+										<button class="btn btn-primary submit-btn">Add</button>
+									</div>
+								}
 							</form>
 						</div>
 					</div>
@@ -153,8 +185,10 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form>
-									<div>Are you sure to delete this duty?</div>
+								<form method="post" asp-page-handler="Delete">
+									<div>Are you sure to delete this duty of @duty.AssignedTo?</div>
+									<input hidden name="date" value="@Model.Date" type="datetime" />
+									<input hidden name="dutyId" value="@duty.DutyId" type="number" />
 									<div class="submit-section">
 										<button class="btn btn-primary submit-btn">Delete</button>
 									</div>
@@ -173,12 +207,14 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form>
+								<form method="post" asp-page-handler="Update">
 									<div class="row">
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Staff</label>
+												<input hidden class="form-control" name="dutyId" value="@duty.DutyId" type="text">
 												<input readonly class="form-control" value="@duty.AssignedTo" type="text">
+												<input hidden name="date" value="@Model.Date" type="datetime" />
 											</div>
 										</div>
 									</div>
@@ -190,7 +226,7 @@
 													@for (byte j = 0; j < 3; j++)
 													{
 														<label class="radio-inline d-flex justify-content-start align-items-center">
-															<input id="radio-single1" class="me-2 default_expense_approval" checked="@(j == duty.Status)" value="seq-approver" name="default_expense_approval" type="radio">
+															<input id="radio-single1" class="me-2 default_expense_approval" checked="@(j == duty.Status)" value="@j" name="status" type="radio">
 															<span class="badge bg-inverse-@DutyStatus.GetClassString(j)">@DutyStatus.GetStatus(j)</span>
 														</label>
 													}
