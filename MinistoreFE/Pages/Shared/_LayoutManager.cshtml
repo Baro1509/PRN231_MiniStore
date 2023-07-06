@@ -80,29 +80,10 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul class="sidebar-vertical">
-                        @*<li class="submenu">
-                            <a href="#">
-                                <i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span>
-                            </a>
-                            <ul style="display: none;">
-                                <li>
-                                    <a href="">
-                                        Admin
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        Employee
-                                        Dashboard
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>*@
                         <li class="menu-title">
                             <span>Manager</span>
                         </li>
-                        <li>
+                       @* <li>
                             <a asp-page="/Manager/Dashboard">
                                 <i class="la"></i> <span>Dashboard</span>
                             </a>
@@ -111,7 +92,7 @@
                             <a asp-page="/Manager/LeaveRequest">
                                 <i class="la"></i> <span>LeaveRequest</span>
                             </a>
-                        </li>
+                        </li>*@
                         <li>
                             <a asp-page="/Manager/DutySheet">
                                 <i class="la"></i> <span>DutySheet</span>
@@ -123,12 +104,12 @@
                             </a>
                         </li>
                         <li>
-                            <a asp-page="/Manager/Staff">
+                            <a asp-page="/Manager/Staff/Index">
                                 <i class="la"></i> <span>All staffs</span>
                             </a>
                         </li>
                         <li>
-                            <a asp-page="/Manager/Product">
+                            <a asp-page="/Manager/Product/Index">
                                 <i class="la"></i> <span>All products</span>
                             </a>
                         </li>
