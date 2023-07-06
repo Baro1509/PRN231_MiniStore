@@ -23,6 +23,13 @@ namespace MinistoreFE.Pages.Salesman.Products
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
+                return RedirectToPage("/Login");
+            }
+            _odataclient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
             Product = await _odataclient.For<Product>().Key(id).Expand(p => p.Category).FindEntryAsync();
             return Page();
         }

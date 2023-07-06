@@ -22,18 +22,31 @@ namespace MinistoreFE.Pages.Salesman.Products
 
         public async Task<IActionResult> OnGetAsync()
         {
-            //Product = new List<Product>();
-            //var token = HttpContext.Session.GetString("token");
-            //_odataClient = OdataUtils.GetODataClient(token);
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
+                return RedirectToPage("/Login");
+            }
+            Product = new List<Product>();
+            var token = HttpContext.Session.GetString("Token");
+            _odataClient = OdataUtils.GetODataClient(token);
             var temp = await _odataClient.For<Product>().Expand(p => p.Category).FindEntriesAsync();
             Product = temp.ToList();
             return Page();
         }
 
         public async Task<IActionResult> OnPostAdd(int productId) {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
+                return RedirectToPage("/Login");
+            }
+
             var cart = HttpContext.Session.GetCustomObjectFromSession<Cart>("Cart");
             if (cart == null) {
-                cart = Utils.CreateCart("1");
+                cart = Utils.CreateCart(HttpContext.Session.GetString("Id"));
             }
             var item = cart.CartItems.Find(p => p.ProductId == productId);
             if (item == null) {
