@@ -3,22 +3,55 @@ using DataAccess.Models;
 
 namespace Repository.Implement
 {
-	public class StaffRepository : IStaffRepository
-	{
-		private readonly StaffDAO _staffDAO;
+    public class StaffRepository : IStaffRepository
+    {
+        private readonly StaffDAO _staffDAO;
 
-		public StaffRepository(StaffDAO staffDAO)
-		{
-			_staffDAO = staffDAO;
-		}
+        public StaffRepository(StaffDAO staffDAO)
+        {
+            _staffDAO = staffDAO;
+        }
 
-		public Staff Login(string username, string password)
-		{
-			return _staffDAO.GetAll().Where(p => p.StaffId == username && p.Password == password).FirstOrDefault();
-		}
-		public Staff? GetStaff(string id)
-		{
-			return _staffDAO.GetStaff(id);
-		}
-	}
+        public Staff Login(string username, string password)
+        {
+            return _staffDAO.GetAll().Where(p => p.StaffId == username && p.Password == password).FirstOrDefault();
+        }
+        public Staff? GetStaff(string id)
+        {
+            return _staffDAO.GetStaff(id);
+        }
+        public bool Update(Staff staff)
+        {
+            var found = _staffDAO.GetStaff(staff.StaffId);
+            if (found != null)
+            {
+                _staffDAO.Update(staff);
+                return true;
+            }
+            return false;
+        }
+        public bool Create(Staff staff)
+        {
+            var found = _staffDAO.GetStaff(staff.StaffId);
+            if (staff == null)
+            {
+                _staffDAO.Create(staff);
+                return true;
+            }
+            return false;
+        }
+
+        public bool Delete(string staffId)
+        {
+            var found = _staffDAO.GetStaff(staffId);
+            if (found != null)
+            {
+                found.Status = (byte?)Status.Deleted;
+                _staffDAO.Delete(found);
+                return true;
+            }
+            return false;
+
+        }
+    }
 }
