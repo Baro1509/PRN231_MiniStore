@@ -27,11 +27,15 @@ namespace MinistoreFE.Pages.Manager.Duty
 
         public List<DateOnly> Dates { get; set; }
         public List<WorkShift> WorkShifts { get; set; }
+        public List<string> StaffIds { get; set; }
+        public List<string> FreeStaffIds { get; set; }
         public DateTime Date { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             var temp = await _odataClient.For<WorkShift>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}").Expand(d => d.Duties).FindEntriesAsync();
             WorkShifts = temp.ToList();
+            var staffTmp = await _odataClient.For<Models.Staff>().FindEntriesAsync();
+            StaffIds = staffTmp.Select(s => s.StaffId).ToList();
             if (WorkShifts.Count == 0)
             {
                 WorkShiftRequest request = new WorkShiftRequest(Date, ManagerId, 0);
@@ -49,6 +53,8 @@ namespace MinistoreFE.Pages.Manager.Duty
             Date = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             var temp = await _odataClient.For<WorkShift>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}").Expand(d => d.Duties).FindEntriesAsync();
             WorkShifts = temp.ToList();
+            var staffTmp = await _odataClient.For<Models.Staff>().FindEntriesAsync();
+            StaffIds = staffTmp.Select(s => s.StaffId).ToList();
             if (WorkShifts.Count == 0)
             {
                 WorkShiftRequest request = new WorkShiftRequest(Date, ManagerId, 0);

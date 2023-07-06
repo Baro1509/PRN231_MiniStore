@@ -60,12 +60,5 @@ namespace Repository.Implement
         {
             return _staffDAO.GetAll().OrderByDescending(s => s.Status).ToList();
         }
-
-        public List<string> GetFreeStaffForShift(int shiftId)
-        {
-            byte availableStatus = (byte)Status.Available;
-            List<string> staffInShift = _dutyDAO.GetDutiesByShift(shiftId).Select(d => d.AssignedTo).ToList();
-            return _staffDAO.GetAll().Where(s => !s.RoleId.StartsWith("M") && s.Status == availableStatus).Select(d => d.StaffId).Where(staffId => !staffInShift.Any(staffShift => staffShift.Equals(staffId))).ToList();
-        }
     }
 }

@@ -20,11 +20,6 @@ namespace MinistoreAPI.Controllers
         {
             return Ok(_staffRepo.GetAll());
         }
-        [HttpGet("odata/Staffs/Free")]
-        public IActionResult GetFreeStaffForShift([FromODataUri] int shiftId)
-        {
-            return Ok(_staffRepo.GetFreeStaffForShift(shiftId));
-        }
         public IActionResult Post([FromBody] Staff staff)
         {
             return _staffRepo.Create(staff) ? Ok() : NotFound();
