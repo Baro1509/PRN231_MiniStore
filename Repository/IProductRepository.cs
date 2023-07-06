@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace Repository {
     public interface IProductRepository {
-        public void Update(Product product);
+        public void Add(Product product);
+        public Product Update(Product product);
         public void Delete(int productId);
         public Product Get(int productId);
+        public Product GetNewestProduct();
         public List<Product> GetAllProduct();
 
         public List<Category> GetAllCategory();
+
+        public List<Product> GetAllProductManager();
     }
 }

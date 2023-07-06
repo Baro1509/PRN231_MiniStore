@@ -1,4 +1,5 @@
-﻿using DataAccess.Models;
+using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Repository;
 
 namespace MinistoreAPI.Controllers {
+    [Authorize]
     public class InvoicesController : ODataController {
         private readonly IInvoiceRepository _invoiceRepository;
 
@@ -23,7 +25,7 @@ namespace MinistoreAPI.Controllers {
 
         public IActionResult Post([FromBody] Invoice invoice) {
             _invoiceRepository.Add(invoice);
-            return Ok(new Invoice());
+            return Ok(_invoiceRepository.GetLatestInvoice());
         }
         
         public IActionResult Delete([FromODataUri] int key) {

@@ -24,5 +24,17 @@ namespace MinistoreFE {
         public static Cart CreateCart(string id) {
             return new Cart { CartItems = new List<CartItem>(), StaffId = id };
         }
+
+        public static bool isManager(string role) {
+            return role.Equals("MG");
+        }
+        
+        public static bool isSalesman(string role) {
+            return role.Equals("SA");
+        }
+        
+        public static bool isLogin(string Id, string Role, string Token) {
+            return Id != null && Role != null && Token != null;
+        }
     }
 }

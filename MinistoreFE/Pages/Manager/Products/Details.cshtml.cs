@@ -8,29 +8,27 @@ using Microsoft.EntityFrameworkCore;
 using MinistoreFE.Models;
 using Simple.OData.Client;
 
-namespace MinistoreFE.Pages.Salesman.Products
+namespace MinistoreFE.Pages.Manager.Products
 {
     public class DetailsModel : PageModel
     {
-        private ODataClient _odataclient;
+        private ODataClient _odataClient;
 
-        public DetailsModel()
-        {
-            _odataclient = OdataUtils.GetODataClient();
+        public DetailsModel() {
+            _odataClient = OdataUtils.GetODataClient();
         }
 
-      public Product Product { get; set; } = default!; 
+        public Product Product { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
+        public async Task<IActionResult> OnGetAsync(int? id) {
             if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
                 return RedirectToPage("/Login");
             }
             if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
                 return RedirectToPage("/Login");
             }
-            _odataclient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
-            Product = await _odataclient.For<Product>().Key(id).Expand(p => p.Category).FindEntryAsync();
+            _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
+            Product = await _odataClient.For<Product>().Key(id).Expand(p => p.Category).FindEntryAsync();
             return Page();
         }
     }

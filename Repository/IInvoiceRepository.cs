@@ -13,5 +13,6 @@ namespace Repository {
         public void Delete(int invoiceId);
         public List<Invoice> GetAllInvoice();
         public List<Invoice> GetAllInvoiceByStaffId(int staffId);
+        public Invoice GetLatestInvoice();
     }
 }
