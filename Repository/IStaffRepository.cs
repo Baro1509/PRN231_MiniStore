@@ -10,5 +10,6 @@ namespace Repository
         public bool Update(Staff staff);
         public bool Create(Staff staff);
         public bool Delete(string staffid);
+        public Staff Get(string id);
     }
 }

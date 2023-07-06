@@ -13,26 +13,40 @@ namespace MinistoreFE.Pages.Manager.Products
 {
     public class EditModel : PageModel
     {
-        private ODataClient _odataclient;
+        private ODataClient _odataClient;
 
         public EditModel() {
-            _odataclient = OdataUtils.GetODataClient();
+            _odataClient = OdataUtils.GetODataClient();
         }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id) {
-            Product = await _odataclient.For<Product>().Key(id).Expand(p => p.Category).FindEntryAsync();
-            var temp = await _odataclient.For<Category>().FindEntriesAsync();
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
+                return RedirectToPage("/Login");
+            }
+            _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
+            Product = await _odataClient.For<Product>().Key(id).Expand(p => p.Category).FindEntryAsync();
+            var temp = await _odataClient.For<Category>().FindEntriesAsync();
             ViewData["Category"] = new SelectList(temp.ToList(), "CategoryId", "CategoryName");
             return Page();
         }
 
         public async Task<IActionResult> OnPostEdit() {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
+                return RedirectToPage("/Login");
+            }
+            _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
             Product.Status = 1;
             Product.ProductStatus = 1;
-            await _odataclient.For<Product>().Key(Product.ProductId).Set(Product).UpdateEntryAsync();
+            await _odataClient.For<Product>().Key(Product.ProductId).Set(Product).UpdateEntryAsync();
             return RedirectToPage("./Details", new {id = Product.ProductId.ToString() });
         }
     }

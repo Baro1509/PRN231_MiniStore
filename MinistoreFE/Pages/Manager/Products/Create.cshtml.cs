@@ -12,26 +12,40 @@ namespace MinistoreFE.Pages.Manager.Products
 {
     public class CreateModel : PageModel
     {
-        private ODataClient _odataclient;
+        private ODataClient _odataClient;
 
         public CreateModel() {
-            _odataclient = OdataUtils.GetODataClient();
+            _odataClient = OdataUtils.GetODataClient();
         }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync() {
-
-            var temp = await _odataclient.For<Category>().FindEntriesAsync();
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
+                return RedirectToPage("/Login");
+            }
+            _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
+            var temp = await _odataClient.For<Category>().FindEntriesAsync();
             ViewData["Category"] = new SelectList(temp.ToList(), "CategoryId", "CategoryName");
             return Page();
         }
 
         public async Task<IActionResult> OnPostCreate() {
+            if (!Utils.isLogin(HttpContext.Session.GetString("Id"), HttpContext.Session.GetString("Role"), HttpContext.Session.GetString("Token"))) {
+                return RedirectToPage("/Login");
+            }
+            if (!Utils.isSalesman(HttpContext.Session.GetString("Role"))) {
+                return RedirectToPage("/Login");
+            }
+            _odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
+
             Product.Status = 1;
             Product.ProductStatus = 1;
-            var temp = await _odataclient.For<Product>().Set(Product).InsertEntryAsync();
+            var temp = await _odataClient.For<Product>().Set(Product).InsertEntryAsync();
             return RedirectToPage("./Index");
         }
     }
