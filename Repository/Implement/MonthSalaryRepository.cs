@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Implement
 {
@@ -22,20 +23,27 @@ namespace Repository.Implement
 		{
 			DateTime from = new DateTime(year, month, 1);
 			DateTime to = from.AddMonths(1);
-			var shiftSalary = _shiftSalaryDAO.GetStaffSalaryByTime(staffId, from);
+			var shiftSalary = _shiftSalaryDAO.GetStaffSalaryByTime(staffId, to).ToList();
+			shiftSalary.Reverse();
 			var staff = _staffDAO.GetStaff(staffId);
 			var manager = _staffDAO.GetStaff(managerId);
-			if (shiftSalary != null && staff != null && manager != null)
+			if (shiftSalary.Any() && staff != null && manager != null)
 			{
 				var found = Get(staffId, month, year);
-				decimal salary = shiftSalary.Salary;
-				var duties = _dutyDAO.GetStaffCompletedDuties(staffId, from, to);
+				int salaryCount = shiftSalary.Count() - 1;
+				ShiftSalary salary = shiftSalary.ElementAt(salaryCount);
+				var duties = _dutyDAO.GetStaffCompletedDuties(staffId, from, to).ToList();
 				if (duties.Any())
 				{
 					decimal sum = 0;
 					foreach (Duty d in duties)
 					{
-						sum += (salary * (decimal)d.Shift.Coefficient) + d.Shift.Bonus;
+						while (d.Shift.StartTime < salary.CreatedTime && salaryCount > 0)
+						{
+							salaryCount--;
+							salary = shiftSalary.ElementAt(salaryCount);
+						}
+						sum += (salary.Salary * (decimal)d.Shift.Coefficient) + d.Shift.Bonus;
 					}
 					if (found == null)
 					{
@@ -77,12 +85,17 @@ namespace Repository.Implement
 		{
 			DateTime from = new DateTime(year, month, 1);
 			DateTime to = from.AddMonths(1);
-			return _monthSalaryDAO.GetAll().FirstOrDefault(m => m.AssignedTo.Equals(staffId) && m.StartTime == from && m.EndTime == to);
+			return _monthSalaryDAO.GetAll().Include(m => m.AssignedToNavigation).FirstOrDefault(m => m.AssignedTo.Equals(staffId) && m.StartTime == from && m.EndTime == to);
 		}
 
 		public List<MonthSalary> Get(string staffId)
 		{
-			return _monthSalaryDAO.GetAll().Where(m => m.AssignedTo.Equals(staffId)).ToList();
+			return _monthSalaryDAO.GetAll().Include(m => m.AssignedToNavigation).Where(m => m.AssignedTo.Equals(staffId)).ToList();
+		}
+
+		public List<MonthSalary> GetAll()
+		{
+			return _monthSalaryDAO.GetAll().Include(m => m.AssignedToNavigation).ToList();
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace MinistoreFE.Pages.Manager
 		private HttpClient client;
 		private string WorkShiftApi = "https://localhost:7036/odata/WorkShifts";
 		private string DutyApi = "https://localhost:7036/odata/Duties";
-		private string ManagerId = "VyLT1";
+		private string ManagerId;
 		public DutyModel()
 		{
 			_odataClient = OdataUtils.GetODataClient();
@@ -45,6 +45,7 @@ namespace MinistoreFE.Pages.Manager
 			}
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
 			_odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
+			ManagerId = HttpContext.Session.GetString("Id");
 			var temp = await _odataClient.For<WorkShift>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}").Expand(d => d.Duties).FindEntriesAsync();
 			WorkShifts = temp.ToList();
 			var staffTmp = await _odataClient.For<Models.Staff>().FindEntriesAsync();
@@ -72,6 +73,8 @@ namespace MinistoreFE.Pages.Manager
 				return RedirectToPage("/Login");
 			}
 			_odataClient = OdataUtils.GetODataClient(HttpContext.Session.GetString("Token"));
+			ManagerId = HttpContext.Session.GetString("Id");
+
 			Date = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 			var temp = await _odataClient.For<WorkShift>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}").Expand(d => d.Duties).FindEntriesAsync();
 			WorkShifts = temp.ToList();
@@ -83,6 +86,7 @@ namespace MinistoreFE.Pages.Manager
 				var myContent = JsonConvert.SerializeObject(request);
 				var byteContent = new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes(myContent));
 				byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
 				await client.PostAsync(WorkShiftApi, byteContent);
 				temp = await _odataClient.For<WorkShift>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}").Expand(d => d.Duties).FindEntriesAsync();
 				WorkShifts = temp.ToList();
@@ -99,6 +103,8 @@ namespace MinistoreFE.Pages.Manager
 			{
 				return RedirectToPage("/Login");
 			}
+			ManagerId = HttpContext.Session.GetString("Id");
+
 			Models.Duty duty = new Models.Duty { DutyId = dutyId, Status = status };
 			var myContent = JsonConvert.SerializeObject(duty);
 			var byteContent = new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes(myContent));
@@ -117,6 +123,7 @@ namespace MinistoreFE.Pages.Manager
 			{
 				return RedirectToPage("/Login");
 			}
+			ManagerId = HttpContext.Session.GetString("Id");
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
 			await client.DeleteAsync($"{DutyApi}/{dutyId}");
 			return await OnPost(date.ToString("dd/MM/yyyy"));
@@ -131,6 +138,8 @@ namespace MinistoreFE.Pages.Manager
 			{
 				return RedirectToPage("/Login");
 			}
+			ManagerId = HttpContext.Session.GetString("Id");
+
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
 
 			Models.Duty duty;

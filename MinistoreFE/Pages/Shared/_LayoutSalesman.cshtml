@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Configuration
+
+<!DOCTYPE html>
 <html lang="en" data-layout-mode="orange">
 <head>
     <meta charset="utf-8" />
@@ -66,7 +68,7 @@
                             <img src="~/img/avt.png" alt>
                             <span class="status online"></span>
                         </span>
-                        <span>Salesman</span>
+                        <span>@Context.Session.GetString("Id")</span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" asp-page="/Salesman/Profile">My Profile</a>

@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MinistoreFE.Pages
 {
-    public class LogoutModel : PageModel
-    {
-        public void OnGet()
-        {
-        }
-    }
+	public class LogoutModel : PageModel
+	{
+		public ActionResult OnGet()
+		{
+			HttpContext.Session.Clear();
+			return RedirectToPage("/Login");
+		}
+	}
 }

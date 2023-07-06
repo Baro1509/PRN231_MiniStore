@@ -12,9 +12,9 @@ namespace DataAccess
         {
             return GetAll().Where(s => s.AssignedTo.Equals(staffId));
         }
-        public ShiftSalary? GetStaffSalaryByTime(string staffId, DateTime time)
+        public IQueryable<ShiftSalary> GetStaffSalaryByTime(string staffId, DateTime to)
         {
-            return GetAll().OrderByDescending(s => s.CreatedTime).FirstOrDefault(s => s.AssignedTo.Equals(staffId) && s.CreatedTime < time);
+            return GetAll().OrderByDescending(s => s.CreatedTime).Where(s => s.AssignedTo.Equals(staffId) && s.CreatedTime < to);
         }
     }
 }
