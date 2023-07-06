@@ -7,12 +7,6 @@
 	ViewData["Title"] = "Duty";
 	Layout = "_LayoutSalesman";
 }
-@{
-	void SetFreeStaff(WorkShift shift)
-	{
-		
-	}
-}
 <div class="page-header">
 	<div class="row align-items-center">
 		<div class="col">
@@ -57,9 +51,7 @@
 					{
 						<td class="p-0 bg-soft-dark">
 							<div class="py-3 d-flex justify-content-center">
-								<a onclick="@{
-							   SetFreeStaff(item);
-							   }" href="#" class="btn w-48" data-bs-toggle="modal" data-bs-target="#add"><i class="fa fa-plus"></i> Add </a>
+								<a href="#" class="btn w-48" data-bs-toggle="modal" data-bs-target="#add-@item.ShiftId"><i class="fa fa-plus"></i> Add </a>
 							</div>
 							@foreach (var duty in item.Duties)
 							{
@@ -70,11 +62,11 @@
 												<i class="fa fa-ellipsis"></i>
 											</a>
 											<div class="dropdown-menu dropdown-menu-right" style="">
-												<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit">
+												<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit-@duty.DutyId">
 													<i class="fa fa-pencil m-r-5"></i>
 													Edit
 												</a>
-												<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete">
+												<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-@duty.DutyId">
 													<i class="fa fa-trash-can m-r-5"></i>
 													Delete
 												</a>
@@ -101,98 +93,122 @@
 			</tbody>
 		</table>
 	</div>
-	<div>
-		<div id="add" class="modal custom-modal fade" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-md" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Add Duty</h5>
-						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Staff</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-							</div>
-							<div class="submit-section">
-								<button class="btn btn-primary submit-btn">Add</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="delete" class="modal custom-modal fade" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-md" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Delete Duty</h5>
-						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div>Are you sure to delete this duty?</div>
-							<div class="submit-section">
-								<button class="btn btn-primary submit-btn">Delete</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="edit" class="modal custom-modal fade" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-md" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Edit Duty</h5>
-						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Staff</label>
-										<input readonly class="form-control" type="text">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Status</label>
-										<div class="d-flex justify-content-between">
-											@for (byte j = 0; j < 3; j++)
-											{
-												<label class="radio-inline d-flex justify-content-start align-items-center">
-													<input id="radio-single1" class="me-2 default_expense_approval" value="seq-approver" name="default_expense_approval" type="radio">
-													<span class="badge bg-inverse-@DutyStatus.GetClassString(j)">@DutyStatus.GetStatus(j)</span>
-												</label>
-											}
+	@foreach(var item in Model.WorkShifts)
+	{
+		<div>
+			<div id="add-@item.ShiftId" class="modal custom-modal fade" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-md" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Add Duty</h5>
+							<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Staff</label>
+											<div>
+												@{
+													Model.FreeStaffs = 
+													// Get all available staff
+													Model.AllStaffs
+													// Get the staff not in current shift duty
+													.Where(staff => !item.Duties
+														.Select(d => d.AssignedTo)
+														.Any(dutyStaff => dutyStaff.Equals(staff.StaffId)))
+														.ToList();
+												}
+												@foreach (Models.Staff staff in Model.FreeStaffs)
+												{
+													<label class="d-flex justify-content-start align-items-center">
+														<input class="me-2 default_expense_approval" value="seq-approver" name="default_expense_approval" type="checkbox">
+														<span>@staff.StaffId</span>
+													</label>
+												}
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="submit-section">
-								<button class="btn btn-primary submit-btn">Edit</button>
-							</div>
-						</form>
+								<div class="submit-section">
+									<button class="btn btn-primary submit-btn">Add</button>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
+			@foreach(var duty in item.Duties)
+			{
+				<div id="delete-@duty.DutyId" class="modal custom-modal fade" style="display: none;" aria-hidden="true">
+					<div class="modal-dialog modal-md" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Delete Duty</h5>
+								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form>
+									<div>Are you sure to delete this duty?</div>
+									<div class="submit-section">
+										<button class="btn btn-primary submit-btn">Delete</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="edit-@duty.DutyId" class="modal custom-modal fade" style="display: none;" aria-hidden="true">
+					<div class="modal-dialog modal-md" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Edit Duty</h5>
+								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Staff</label>
+												<input readonly class="form-control" value="@duty.AssignedTo" type="text">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Status</label>
+												<div class="d-flex justify-content-between">
+													@for (byte j = 0; j < 3; j++)
+													{
+														<label class="radio-inline d-flex justify-content-start align-items-center">
+															<input id="radio-single1" class="me-2 default_expense_approval" checked="@(j == duty.Status)" value="seq-approver" name="default_expense_approval" type="radio">
+															<span class="badge bg-inverse-@DutyStatus.GetClassString(j)">@DutyStatus.GetStatus(j)</span>
+														</label>
+													}
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="submit-section">
+										<button class="btn btn-primary submit-btn">Edit</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
 		</div>
-	</div>
+	}
 </div>
 <style>
 	.card {

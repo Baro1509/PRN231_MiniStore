@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MinistoreFE.Constants;
 using MinistoreFE.Models;
 using MinistoreFE.Request;
 using Newtonsoft.Json;
@@ -27,15 +28,16 @@ namespace MinistoreFE.Pages.Manager.Duty
 
         public List<DateOnly> Dates { get; set; }
         public List<WorkShift> WorkShifts { get; set; }
-        public List<string> StaffIds { get; set; }
-        public List<string> FreeStaffIds { get; set; }
+        public List<Models.Staff> AllStaffs { get; set; }
+        public List<Models.Staff> FreeStaffs { get; set; } = new List<Models.Staff>();
+        public WorkShift CurrentShift { get; set; }
         public DateTime Date { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             var temp = await _odataClient.For<WorkShift>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}").Expand(d => d.Duties).FindEntriesAsync();
             WorkShifts = temp.ToList();
             var staffTmp = await _odataClient.For<Models.Staff>().FindEntriesAsync();
-            StaffIds = staffTmp.Select(s => s.StaffId).ToList();
+            AllStaffs = staffTmp.Where(s => s.Status == (byte)Status.Available && !Role.IsManager(s.RoleId)).ToList();
             if (WorkShifts.Count == 0)
             {
                 WorkShiftRequest request = new WorkShiftRequest(Date, ManagerId, 0);
@@ -54,7 +56,7 @@ namespace MinistoreFE.Pages.Manager.Duty
             var temp = await _odataClient.For<WorkShift>().QueryOptions($"year={Date.Year}&month={Date.Month}&date={Date.Day}").Expand(d => d.Duties).FindEntriesAsync();
             WorkShifts = temp.ToList();
             var staffTmp = await _odataClient.For<Models.Staff>().FindEntriesAsync();
-            StaffIds = staffTmp.Select(s => s.StaffId).ToList();
+            AllStaffs = staffTmp.Where(s => s.Status == (byte)Status.Available && !Role.IsManager(s.RoleId)).ToList();
             if (WorkShifts.Count == 0)
             {
                 WorkShiftRequest request = new WorkShiftRequest(Date, ManagerId, 0);
